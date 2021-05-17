@@ -1,0 +1,29 @@
+:root {
+  --ifm-color-black: #18191a;
+  --ifm-color-black-light: #202026;
+  --ifm-color-black-lighter: #26262f;
+  --ifm-color-white: #ffffff;
+  --ifm-color-white-dark: #f0f0fd;
+  --ifm-color-white-darker: #e6e6fd;
+  --ifm-color-white-darkest: #c5c5e9;
+  --ifm-color-purple-lightest: #9c9abf;
+  --ifm-color-purple-lighter: #8481af;
+  --ifm-color-purple-light: #7c79aa;
+  --ifm-color-purple: #6c69a0;
+  --ifm-color-purple-dark: #5f5c92;
+  --ifm-color-purple-darker: #5a578a;
+  --ifm-color-purple-darkest: #4a4872;
+  --ifm-color-purple-opacity-50: rgba(121, 118, 171, 0.5);
+  --ifm-color-orange: #ee8030;
+  --ifm-color-green: #00ccb1;
+  --ifm-color-green-dark: #325d52;
+  --ifm-color-green-opacity-50: rgba(101, 255, 227, 0.5);
+  --ifm-color-red: #fd7b7b;
+  --ifm-color-red-dark: #793f3f;
+  --ifm-color-red-opacity-50: rgba(255, 156, 156, 0.5);
+  --ifm-color-yellow: #feec4c;
+  --ifm-color-yellow-dark: #c4b325;
+  --ifm-color-yellow-opacity-50: rgba(243, 237, 121, 0.5);
+  --ifm-color-gray-darkest: #262630;
+  --ifm-color-gray-dark: #3c3c4c;
+}
