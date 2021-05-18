@@ -8,12 +8,12 @@ export const Composition1: React.FC = () => {
 	return (
 		<Container>
 			<div>
-				<Sequence from={0} durationInFrames={135}>
+				<Sequence from={0} durationInFrames={300}>
 					<Transition type="out">
 						<Test />
 					</Transition>
 				</Sequence>
-				<Sequence from={120} durationInFrames={120}>
+				<Sequence from={300} durationInFrames={300}>
 					<Transition type="in">
 						<Test2 />
 					</Transition>

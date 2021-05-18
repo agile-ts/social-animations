@@ -3,23 +3,10 @@ import styled from 'styled-components';
 import CodeFrame from '../../components/CodeFrame';
 
 const code = `// 1. Create Agile Instance
-const App = new Agile();
+export const App = new Agile();
 
 // 2. Create State
-const MY_STATE = App.createState('jeff');
-
-const MyComponent = () => {
-	 // 3. Bind State to Component for reactivity
-   const myState = useAgile(MY_STATE); // Returns 'jeff'
-
-   return (
-     <p>{myState}</p>
-     {/* 4. Update State on Button press */}
-     <button onClick={() => {
-     	  MY_STATE.set('frank');
-     }}>Change State</button>
-   );
-}`;
+export const MY_STATE = App.createState('jeff');`;
 
 const Test: React.FC = () => {
 	const frame = useCurrentFrame();
@@ -52,36 +39,18 @@ const Test: React.FC = () => {
 				<CodeFrame
 					code={code}
 					width={1500}
-					title="MyComponent.tsx"
+					title="core.ts"
 					actions={[
-						{line: 0, from: 5, type: 'in'},
+						{line: 0, from: 20, type: 'in'},
 						{line: 1, from: 20, type: 'in'},
 
-						{line: 3, from: 50, type: 'in'},
-						{line: 4, from: 50, type: 'in'},
+						{line: 3, from: 100, type: 'in'},
+						{line: 4, from: 100, type: 'in'},
+						{line: 3, from: 120, type: 'highlight'},
+						{line: 4, from: 120, type: 'highlight'},
 
-						{line: 7, from: 100, type: 'in'},
-						{line: 8, from: 100, type: 'in'},
-						{line: 9, from: 100, type: 'in'},
-						{line: 11, from: 100, type: 'in'},
-
-						{line: 12, from: 200, type: 'in'},
-						{line: 13, from: 200, type: 'in'},
-						{line: 14, from: 200, type: 'in'},
-						{line: 15, from: 200, type: 'in'},
-
-						{from: 200, z: 0.8},
-						{from: 250, z: 1.5, x: (460 * 1.5) / 6.5, y: -250},
-
-						{line: 12, from: 250, type: 'highlight'},
-						{line: 13, from: 250, type: 'highlight'},
-						{line: 14, from: 250, type: 'highlight'},
-						{line: 15, from: 250, type: 'highlight'},
-
-						{line: 1, from: 300, type: 'highlight'},
-						{from: 300, x: 0, z: 0.8, y: 0},
-
-						{line: 1, from: 350, type: 'unhighlight'},
+						{line: 3, from: 200, type: 'unhighlight'},
+						{line: 4, from: 200, type: 'unhighlight'},
 					]}
 				/>
 			</CodeContainer>
