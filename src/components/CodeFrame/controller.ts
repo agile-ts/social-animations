@@ -24,7 +24,6 @@ export const extractLineActions = (
 				line: action.line,
 				actions: [],
 				currentStyle: {},
-				visible: false,
 			};
 			tempLineActions[action.line] = currentLineActions;
 		}
@@ -37,7 +36,7 @@ export const extractLineActions = (
 			const animateInFrame =
 				currentLineActions.actions.filter((a) => a.type === 'in')[0]?.from || 0;
 
-			if (animateInFrame > action.from) {
+			if (animateInFrame >= action.from) {
 				return;
 			}
 		}
@@ -120,18 +119,15 @@ export const extractLineActions = (
 	generateInvertedActions(invertedActions['unhighlight'], 'highlight');
 
 	for (const key in tempLineActions) {
+		const action = tempLineActions[key];
+
 		// If line is visible
-		if (
-			tempLineActions[key].actions.filter((action) => action.type === 'in')
-				.length <= 0
-		) {
-			// TODO remove actions before in action and between in and or action
-			// TODO refactor this whole stuff
-			tempLineActions[key].visible = true;
+		if (action.actions.filter((action) => action.type !== 'in').length <= 0) {
+			action.currentStyle = {opacity: 0, lineHeight: 0, fontSize: 0};
 		}
 
 		// Sort Actions based on Timing
-		tempLineActions[key].actions.sort((a, b) => {
+		action.actions.sort((a, b) => {
 			return a.from > b.from ? 1 : -1;
 		});
 	}
@@ -248,9 +244,6 @@ export const getLineStyle = ({
 		return Math.abs(b.from - frame) < Math.abs(a.from - frame) ? b : a;
 	});
 
-	if (!lineActions.visible && closest.type !== 'in' && closest.type !== 'out')
-		return {opacity: 0, lineHeight: 0, fontSize: 0};
-
 	if (closest.type === 'out') {
 		const animation = spring({
 			fps,
@@ -272,8 +265,6 @@ export const getLineStyle = ({
 			[0, 1.53]
 		);
 		lineActions.currentStyle['fontSize'] = animation + 'em';
-
-		lineActions.visible = false;
 	}
 
 	if (closest.type === 'in') {
@@ -297,11 +288,9 @@ export const getLineStyle = ({
 			[0, 1.53]
 		);
 		lineActions.currentStyle['fontSize'] = animation + 'em';
-
-		lineActions.visible = true;
 	}
 
-	if (closest.type === 'unhighlight' && lineActions.visible) {
+	if (closest.type === 'unhighlight') {
 		const animation = spring({
 			fps,
 			frame: frame - closest.from,
@@ -318,7 +307,7 @@ export const getLineStyle = ({
 		lineActions.currentStyle['opacity'] = animation;
 	}
 
-	if (closest.type === 'highlight' && lineActions.visible) {
+	if (closest.type === 'highlight') {
 		const animation = spring({
 			fps,
 			frame: frame - closest.from,
@@ -341,7 +330,6 @@ export const getLineStyle = ({
 export interface LineActions {
 	line: number;
 	actions: LineAction[];
-	visible: boolean;
 	currentStyle: {[key: string]: any};
 }
 

@@ -12,7 +12,7 @@ export const RemotionVideo: React.FC = () => {
 				width={1920}
 				height={1080}
 				fps={30}
-				durationInFrames={1000}
+				durationInFrames={500}
 			/>
 			<Composition
 				id={'Test2'}
@@ -20,7 +20,7 @@ export const RemotionVideo: React.FC = () => {
 				width={1920}
 				height={1080}
 				fps={30}
-				durationInFrames={1000}
+				durationInFrames={500}
 			/>
 			<Composition
 				id={'Composition1'}
@@ -28,7 +28,7 @@ export const RemotionVideo: React.FC = () => {
 				width={1920}
 				height={1080}
 				fps={30}
-				durationInFrames={1000}
+				durationInFrames={800}
 			/>
 		</>
 	);

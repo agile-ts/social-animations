@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import CodeFrame from '../../components/CodeFrame';
 
 const code = `const MyComponent = () => {
-	 // 3. Bind State to Component for reactivity
+	// 3. Bind State to Component for reactivity
    const myState = useAgile(MY_STATE); // Returns 'jeff'
 
    return (
@@ -56,8 +56,7 @@ const Test2: React.FC = () => {
 						{line: 1, from: 60, type: 'highlight'},
 						{line: 2, from: 60, type: 'highlight'},
 
-						{line: 5, from: 149, type: 'in'},
-						{line: 5, from: 150, type: 'highlight'},
+						{line: 5, from: 150, type: 'in'},
 						{line: 6, from: 150, type: 'highlight'},
 						{line: 5, from: 250, type: 'out'},
 

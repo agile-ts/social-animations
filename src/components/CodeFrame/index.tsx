@@ -33,20 +33,16 @@ const CodeFrame: React.FC<{
 	const frame = useCurrentFrame();
 	const {fps} = useVideoConfig();
 
-	// Reset stored styles because backwards scrolling in the timeline doesn't revert the styles.
-	if (frame === 0) {
-		generalActions.currentStyle = {};
-		for (const key in lineActionsKeymap) {
-			lineActionsKeymap[key].currentStyle = {};
-		}
-	}
-
 	useEffect(() => {
-		const linesOfCode = code.split(/\r\n|\r|\n/).length;
+		if (frame === 0) {
+			const linesOfCode = code.split(/\r\n|\r|\n/).length;
 
-		setLineActionsKeymap(extractLineActions(actions, linesOfCode));
-		setGeneralActions(extractGeneralActions(actions));
-	}, []);
+			console.log(extractLineActions(actions, linesOfCode));
+
+			setLineActionsKeymap(extractLineActions(actions, linesOfCode));
+			setGeneralActions(extractGeneralActions(actions));
+		}
+	}, [frame]);
 
 	return (
 		<Container style={getGeneralStyle({generalActions, frame, fps})}>
@@ -140,6 +136,10 @@ const Frame = styled.div`
 	background-color: var(--ifm-color-black-light);
 	overflow: hidden;
 
+	box-shadow: 50px 80px 200px 0 var(--ifm-color-black-light);
+	-moz-box-shadow: 50px 80px 200px 0 var(--ifm-color-black-light);
+	-webkit-box-shadow: 50px 80px 200px 0 var(--ifm-color-black-light);
+
 	font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
 		Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 `;
@@ -154,9 +154,9 @@ const TitleContainer = styled.div`
 `;
 
 const Title = styled.div`
-	font-size: 28px;
+	font-size: 36px;
 	color: var(--ifm-color-white-dark);
-	margin-bottom: 5px;
+	margin-bottom: 6px;
 `;
 
 const CircleContainer = styled.div`

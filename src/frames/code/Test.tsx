@@ -41,9 +41,6 @@ const Test: React.FC = () => {
 					width={1500}
 					title="core.ts"
 					actions={[
-						{line: 0, from: 20, type: 'in'},
-						{line: 1, from: 20, type: 'in'},
-
 						{line: 3, from: 100, type: 'in'},
 						{line: 4, from: 100, type: 'in'},
 						{line: 3, from: 120, type: 'highlight'},

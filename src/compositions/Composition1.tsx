@@ -13,7 +13,7 @@ export const Composition1: React.FC = () => {
 						<Test />
 					</Transition>
 				</Sequence>
-				<Sequence from={300} durationInFrames={300}>
+				<Sequence from={290} durationInFrames={500}>
 					<Transition type="in">
 						<Test2 />
 					</Transition>
