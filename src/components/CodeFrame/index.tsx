@@ -14,7 +14,7 @@ const getLineStyle = ({
 	frame: number;
 	fps: number;
 }) => {
-	if (!lineActions) return {};
+	if (!lineActions || lineActions.actions.length <= 0) return {};
 
 	// Get closest action to the current frame
 	const closest = lineActions.actions.reduce((a, b) => {
@@ -113,51 +113,60 @@ const getGeneralStyle = ({
 	frame: number;
 	fps: number;
 }) => {
-	if (!generalActions) return {};
+	if (!generalActions || generalActions.actions.length <= 0) return {};
 
 	// Get closest action to the current frame
 	const closest = generalActions.actions.reduce((a, b) => {
 		return Math.abs(b.from - frame) < Math.abs(a.from - frame) ? b : a;
 	});
 
-	const xAnimation = spring({
-		fps,
-		frame: frame - closest.from,
-		config: {
-			stiffness: 200,
-			damping: 100,
-			mass: 0.5,
-			overshootClamping: true,
-		},
-		to: 1,
-		from: generalActions.currentStyle.left ?? undefined,
-	});
+	const xAnimation =
+		closest.x != null
+			? spring({
+					fps,
+					frame: frame - closest.from,
+					config: {
+						stiffness: 200,
+						damping: 100,
+						mass: 0.5,
+						overshootClamping: true,
+					},
+					to: closest.x,
+					from: generalActions.currentStyle.left ?? undefined,
+			  })
+			: generalActions.currentStyle.left;
 
-	const yAnimation = spring({
-		fps,
-		frame: frame - closest.from,
-		config: {
-			stiffness: 200,
-			damping: 100,
-			mass: 0.5,
-			overshootClamping: true,
-		},
-		to: 1,
-		from: generalActions.currentStyle.top ?? undefined,
-	});
+	const yAnimation =
+		closest.y != null
+			? spring({
+					fps,
+					frame: frame - closest.from,
+					config: {
+						stiffness: 200,
+						damping: 100,
+						mass: 0.5,
+						overshootClamping: true,
+					},
+					to: closest.y,
+					from: generalActions.currentStyle.top ?? undefined,
+			  })
+			: generalActions.currentStyle.top;
 
-	const zAnimation = spring({
-		fps,
-		frame: frame - closest.from,
-		config: {
-			stiffness: 200,
-			damping: 100,
-			mass: 0.5,
-			overshootClamping: true,
-		},
-		to: 1,
-		from: generalActions.currentStyle.zoom ?? 1,
-	});
+	const zAnimation =
+		closest.z != null
+			? spring({
+					fps,
+					frame: frame - closest.from,
+					config: {
+						stiffness: 200,
+						damping: 100,
+						mass: 0.5,
+						overshootClamping: true,
+					},
+					to: closest.z,
+					from: generalActions.currentStyle.zoom ?? 1,
+			  })
+			: generalActions.currentStyle.zoom;
 
 	generalActions.currentStyle['left'] = xAnimation;
 	generalActions.currentStyle['top'] = yAnimation;
@@ -385,7 +394,7 @@ const CodeFrame: React.FC<{
 export default CodeFrame;
 
 const Container = styled.div`
-	position: absolute;
+	position: relative;
 	flex: 1;
 	justify-content: center;
 	align-items: center;
