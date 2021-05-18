@@ -16,8 +16,6 @@ const getLineStyle = ({
 }) => {
 	if (!lineStatus) return {};
 
-	// console.log(lineStatus);
-
 	// Get closes action to the current frame
 	const closest = lineStatus.actions.reduce((a, b) => {
 		return Math.abs(b.from - frame) < Math.abs(a.from - frame) ? b : a;
@@ -128,11 +126,22 @@ const CodeFrame: React.FC<{
 	const [lineStatuses, setLineStatuses] = useState<{[key: number]: LineStatus}>(
 		{}
 	);
+	const frame = useCurrentFrame();
+	const {fps} = useVideoConfig();
 
 	useEffect(() => {
-		const tempLineStatuses: {[key: number]: LineStatus} = {};
+		const tempLineStatuses: {[key: string]: LineStatus} = {};
+		const linesOfCode = code.split(/\r\n|\r|\n/).length;
 
-		for (const action of actions) {
+		// Cache inverted Actions
+		// Inverted actions are actions that don't affect directly the action line
+		// it affects the other lines
+		// For instance highlight actions
+		// in order to unhighligh the rest of the lines if specific lines got highlighted at specific frame
+		// {highlight: {10: [1, 2, 3]}} | 'highlight' = Action Name; '10' = Frame; '[1, 2, 3]' = Lines affected by the action
+		const invertedActions: {[key: string]: {[frame: number]: number[]}} = {};
+
+		const addAction = (action: LineAction) => {
 			// Generate LineStatus Object
 			if (!tempLineStatuses[action.line]) {
 				tempLineStatuses[action.line] = {
@@ -144,7 +153,66 @@ const CodeFrame: React.FC<{
 
 			// Add Action
 			tempLineStatuses[action.line].actions.push(action);
+		};
+
+		// Add actions to tempLineStatuses
+		for (const action of actions) {
+			let add = true;
+
+			// Add highlight action which happen at the same time in frame
+			if (action.type === 'highlight') {
+				if (!invertedActions['highlight']) {
+					invertedActions['highlight'] = {};
+				}
+
+				if (invertedActions['highlight'][action.from]) {
+					invertedActions['highlight'][action.from].push(action.line);
+				} else invertedActions['highlight'][action.from] = [action.line];
+
+				// Add action because if you want to highlight a current unhiglighted line you need this action
+				add = true;
+			}
+
+			// Add unhighlight action which happen at the same time in frame
+			if (action.type === 'unhighlight') {
+				if (!invertedActions['unhighlight']) {
+					invertedActions['unhighlight'] = {};
+				}
+
+				if (invertedActions['unhighlight'][action.from]) {
+					invertedActions['unhighlight'][action.from].push(action.line);
+				} else invertedActions['unhighlight'][action.from] = [action.line];
+
+				// Don't add action because if you want to unhighlight a lne,
+				// the actual line shouldn't be unhighlighted, instead the other lines should be highlighted
+				add = false;
+			}
+
+			if (add) {
+				addAction(action);
+			}
 		}
+
+		const InvertActions = (
+			keymap: {[key: number]: number[]},
+			actionType: string
+		) => {
+			for (const key in keymap) {
+				const action = keymap[key];
+
+				for (let i = 0; i < linesOfCode; i++) {
+					if (!action.includes(i)) {
+						addAction({from: key as any, type: actionType as any, line: i});
+					}
+				}
+			}
+		};
+
+		// Handle highlight Actions (-> unhighligh every other line except the highlighted lines)
+		InvertActions(invertedActions['highlight'], 'unhighlight');
+
+		// Handle unhighlight Actions (-> highlight every other line except the unhighlighted lines)
+		InvertActions(invertedActions['unhighlight'], 'highlight');
 
 		// Sort Actions based on Timing
 		for (const key in tempLineStatuses) {
@@ -155,9 +223,6 @@ const CodeFrame: React.FC<{
 
 		setLineStatuses(tempLineStatuses);
 	}, []);
-
-	const frame = useCurrentFrame();
-	const {fps} = useVideoConfig();
 
 	return (
 		<Container zoom={1}>
