@@ -6,18 +6,18 @@ import styled from 'styled-components';
 import './prism.css';
 
 const getLineStyle = ({
-	lineStatus,
+	lineActions,
 	frame,
 	fps,
 }: {
-	lineStatus: LineStatus;
+	lineActions: LineActions;
 	frame: number;
 	fps: number;
 }) => {
-	if (!lineStatus) return {};
+	if (!lineActions) return {};
 
-	// Get closes action to the current frame
-	const closest = lineStatus.actions.reduce((a, b) => {
+	// Get closest action to the current frame
+	const closest = lineActions.actions.reduce((a, b) => {
 		return Math.abs(b.from - frame) < Math.abs(a.from - frame) ? b : a;
 	});
 
@@ -32,16 +32,16 @@ const getLineStyle = ({
 				overshootClamping: true,
 			},
 			to: 0,
-			from: lineStatus.currentStyle.opacity ?? 1,
+			from: lineActions.currentStyle.opacity ?? 1,
 		});
 
-		lineStatus.currentStyle['opacity'] = animation;
-		lineStatus.currentStyle['lineHeight'] = interpolate(
+		lineActions.currentStyle['opacity'] = animation;
+		lineActions.currentStyle['lineHeight'] = interpolate(
 			animation,
 			[0, 1],
 			[0, 1.53]
 		);
-		lineStatus.currentStyle['fontSize'] = animation + 'em';
+		lineActions.currentStyle['fontSize'] = animation + 'em';
 	}
 
 	if (closest.type === 'in') {
@@ -55,16 +55,16 @@ const getLineStyle = ({
 				overshootClamping: true,
 			},
 			to: 1,
-			from: lineStatus.currentStyle.opacity ?? 0,
+			from: lineActions.currentStyle.opacity ?? 0,
 		});
 
-		lineStatus.currentStyle['opacity'] = animation;
-		lineStatus.currentStyle['lineHeight'] = interpolate(
+		lineActions.currentStyle['opacity'] = animation;
+		lineActions.currentStyle['lineHeight'] = interpolate(
 			animation,
 			[0, 1],
 			[0, 1.53]
 		);
-		lineStatus.currentStyle['fontSize'] = animation + 'em';
+		lineActions.currentStyle['fontSize'] = animation + 'em';
 	}
 
 	if (closest.type === 'unhighlight') {
@@ -78,10 +78,10 @@ const getLineStyle = ({
 				overshootClamping: true,
 			},
 			to: 0.3,
-			from: lineStatus.currentStyle.opacity ?? 1,
+			from: lineActions.currentStyle.opacity ?? 1,
 		});
 
-		lineStatus.currentStyle['opacity'] = animation;
+		lineActions.currentStyle['opacity'] = animation;
 	}
 
 	if (closest.type === 'highlight') {
@@ -95,42 +95,130 @@ const getLineStyle = ({
 				overshootClamping: true,
 			},
 			to: 1,
-			from: lineStatus.currentStyle.opacity ?? 0.5,
+			from: lineActions.currentStyle.opacity ?? 0.5,
 		});
 
-		lineStatus.currentStyle['opacity'] = animation;
+		lineActions.currentStyle['opacity'] = animation;
 	}
 
-	return lineStatus.currentStyle;
+	return lineActions.currentStyle;
 };
 
-interface LineAction {
-	line: number;
-	from: number;
-	type?: 'in' | 'out' | 'highlight' | 'unhighlight';
-}
+const getGeneralStyle = ({
+	generalActions,
+	frame,
+	fps,
+}: {
+	generalActions: GeneralActions;
+	frame: number;
+	fps: number;
+}) => {
+	if (!generalActions) return {};
 
-interface LineStatus {
+	// Get closest action to the current frame
+	const closest = generalActions.actions.reduce((a, b) => {
+		return Math.abs(b.from - frame) < Math.abs(a.from - frame) ? b : a;
+	});
+
+	const xAnimation = spring({
+		fps,
+		frame: frame - closest.from,
+		config: {
+			stiffness: 200,
+			damping: 100,
+			mass: 0.5,
+			overshootClamping: true,
+		},
+		to: 1,
+		from: generalActions.currentStyle.left ?? undefined,
+	});
+
+	const yAnimation = spring({
+		fps,
+		frame: frame - closest.from,
+		config: {
+			stiffness: 200,
+			damping: 100,
+			mass: 0.5,
+			overshootClamping: true,
+		},
+		to: 1,
+		from: generalActions.currentStyle.top ?? undefined,
+	});
+
+	const zAnimation = spring({
+		fps,
+		frame: frame - closest.from,
+		config: {
+			stiffness: 200,
+			damping: 100,
+			mass: 0.5,
+			overshootClamping: true,
+		},
+		to: 1,
+		from: generalActions.currentStyle.zoom ?? 1,
+	});
+
+	generalActions.currentStyle['left'] = xAnimation;
+	generalActions.currentStyle['top'] = yAnimation;
+	generalActions.currentStyle['zoom'] = zAnimation;
+
+	return generalActions.currentStyle;
+};
+
+interface LineActions {
 	line: number;
 	actions: LineAction[];
 	currentStyle: {[key: string]: any};
 }
 
+interface LineAction {
+	line: number;
+	from: number;
+	type: 'in' | 'out' | 'highlight' | 'unhighlight';
+}
+
+function instanceOfLineAction(object: any): object is LineAction {
+	return 'line' in object && 'from' in object && 'type' in object;
+}
+
+interface GeneralActions {
+	actions: GeneralAction[];
+	currentStyle: {[key: string]: any};
+}
+
+function instanceOfGeneralAction(object: any): object is GeneralAction {
+	return 'from' in object && ('x' in object || 'y' in object || 'z' in object);
+}
+
+interface GeneralAction {
+	from: number;
+	x?: number;
+	y?: number;
+	z?: number;
+}
+
 const CodeFrame: React.FC<{
 	code: string;
-	actions: LineAction[];
+	actions: (LineAction | GeneralAction)[];
 	title: string;
 	width: number;
 }> = (props) => {
 	const {code, actions, title, width} = props;
-	const [lineStatuses, setLineStatuses] = useState<{[key: number]: LineStatus}>(
-		{}
-	);
+	const [lineActionsKeymap, setLineActionsKeymap] = useState<{
+		[line: number]: LineActions;
+	}>({});
+	const [generalActions, setGeneralActions] = useState<GeneralActions>({
+		actions: [],
+		currentStyle: {},
+	});
+
 	const frame = useCurrentFrame();
 	const {fps} = useVideoConfig();
 
 	useEffect(() => {
-		const tempLineStatuses: {[key: string]: LineStatus} = {};
+		const tempLineActions: {[frame: string]: LineActions} = {};
+		const tempGeneralActions = generalActions;
 		const linesOfCode = code.split(/\r\n|\r|\n/).length;
 
 		// Cache inverted Actions
@@ -141,10 +229,10 @@ const CodeFrame: React.FC<{
 		// {highlight: {10: [1, 2, 3]}} | 'highlight' = Action Name; '10' = Frame; '[1, 2, 3]' = Lines affected by the action
 		const invertedActions: {[key: string]: {[frame: number]: number[]}} = {};
 
-		const addAction = (action: LineAction) => {
+		const addLineAction = (action: LineAction) => {
 			// Generate LineStatus Object
-			if (!tempLineStatuses[action.line]) {
-				tempLineStatuses[action.line] = {
+			if (!tempLineActions[action.line]) {
+				tempLineActions[action.line] = {
 					line: action.line,
 					actions: [],
 					currentStyle: {},
@@ -152,48 +240,56 @@ const CodeFrame: React.FC<{
 			}
 
 			// Add Action
-			tempLineStatuses[action.line].actions.push(action);
+			tempLineActions[action.line].actions.push(action);
 		};
 
-		// Add actions to tempLineStatuses
+		// Sort Actions
 		for (const action of actions) {
 			let add = true;
 
-			// Add highlight action which happen at the same time in frame
-			if (action.type === 'highlight') {
-				if (!invertedActions['highlight']) {
-					invertedActions['highlight'] = {};
+			// Add to Line Action
+			if (instanceOfLineAction(action)) {
+				// Add highlight action which happen at the same time in frame
+				if (action.type === 'highlight') {
+					if (!invertedActions['highlight']) {
+						invertedActions['highlight'] = {};
+					}
+
+					if (invertedActions['highlight'][action.from]) {
+						invertedActions['highlight'][action.from].push(action.line);
+					} else invertedActions['highlight'][action.from] = [action.line];
+
+					// Add action because if you want to highlight a current unhiglighted line you need this action
+					add = true;
 				}
 
-				if (invertedActions['highlight'][action.from]) {
-					invertedActions['highlight'][action.from].push(action.line);
-				} else invertedActions['highlight'][action.from] = [action.line];
+				// Add unhighlight action which happen at the same time in frame
+				if (action.type === 'unhighlight') {
+					if (!invertedActions['unhighlight']) {
+						invertedActions['unhighlight'] = {};
+					}
 
-				// Add action because if you want to highlight a current unhiglighted line you need this action
-				add = true;
-			}
+					if (invertedActions['unhighlight'][action.from]) {
+						invertedActions['unhighlight'][action.from].push(action.line);
+					} else invertedActions['unhighlight'][action.from] = [action.line];
 
-			// Add unhighlight action which happen at the same time in frame
-			if (action.type === 'unhighlight') {
-				if (!invertedActions['unhighlight']) {
-					invertedActions['unhighlight'] = {};
+					// Don't add action because if you want to unhighlight a lne,
+					// the actual line shouldn't be unhighlighted, instead the other lines should be highlighted
+					add = false;
 				}
 
-				if (invertedActions['unhighlight'][action.from]) {
-					invertedActions['unhighlight'][action.from].push(action.line);
-				} else invertedActions['unhighlight'][action.from] = [action.line];
-
-				// Don't add action because if you want to unhighlight a lne,
-				// the actual line shouldn't be unhighlighted, instead the other lines should be highlighted
-				add = false;
+				if (add) {
+					addLineAction(action);
+				}
 			}
 
-			if (add) {
-				addAction(action);
+			// Add to General Action
+			if (instanceOfGeneralAction(action)) {
+				tempGeneralActions.actions.push(action);
 			}
 		}
 
-		const InvertActions = (
+		const generateInvertedActions = (
 			keymap: {[key: number]: number[]},
 			actionType: string
 		) => {
@@ -202,30 +298,34 @@ const CodeFrame: React.FC<{
 
 				for (let i = 0; i < linesOfCode; i++) {
 					if (!action.includes(i)) {
-						addAction({from: key as any, type: actionType as any, line: i});
+						addLineAction({from: key as any, type: actionType as any, line: i});
 					}
 				}
 			}
 		};
 
 		// Handle highlight Actions (-> unhighligh every other line except the highlighted lines)
-		InvertActions(invertedActions['highlight'], 'unhighlight');
+		generateInvertedActions(invertedActions['highlight'], 'unhighlight');
 
 		// Handle unhighlight Actions (-> highlight every other line except the unhighlighted lines)
-		InvertActions(invertedActions['unhighlight'], 'highlight');
+		generateInvertedActions(invertedActions['unhighlight'], 'highlight');
 
 		// Sort Actions based on Timing
-		for (const key in tempLineStatuses) {
-			tempLineStatuses[key].actions.sort((a, b) => {
+		for (const key in tempLineActions) {
+			tempLineActions[key].actions.sort((a, b) => {
 				return a.from > b.from ? 1 : -1;
 			});
 		}
+		tempGeneralActions.actions.sort((a, b) => {
+			return a.from > b.from ? 1 : -1;
+		});
 
-		setLineStatuses(tempLineStatuses);
+		setLineActionsKeymap(tempLineActions);
+		setGeneralActions(tempGeneralActions);
 	}, []);
 
 	return (
-		<Container zoom={1}>
+		<Container style={getGeneralStyle({generalActions, frame, fps})}>
 			<Frame>
 				<TitleContainer>
 					<CircleContainer>
@@ -250,7 +350,7 @@ const CodeFrame: React.FC<{
 											key={i}
 											{...getLineProps({line, key: i})}
 											style={getLineStyle({
-												lineStatus: lineStatuses[i],
+												lineActions: lineActionsKeymap[i],
 												frame,
 												fps,
 											})}
@@ -284,14 +384,12 @@ const CodeFrame: React.FC<{
 
 export default CodeFrame;
 
-const Container = styled.div<{
-	zoom: number;
-}>`
+const Container = styled.div`
+	position: absolute;
 	flex: 1;
 	justify-content: center;
 	align-items: center;
 	display: flex;
-	zoom: ${(props) => props.zoom};
 `;
 
 // pre = https://www.youtube.com/watch?v=9jZLg2CIgQQ

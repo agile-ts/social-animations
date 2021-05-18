@@ -70,6 +70,8 @@ const Test: React.FC = () => {
 						{line: 14, from: 200, type: 'in'},
 						{line: 15, from: 200, type: 'in'},
 
+						{from: 200, z: 2},
+
 						{line: 12, from: 250, type: 'highlight'},
 						{line: 13, from: 250, type: 'highlight'},
 						{line: 14, from: 250, type: 'highlight'},
