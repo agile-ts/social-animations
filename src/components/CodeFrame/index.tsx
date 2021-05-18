@@ -1,54 +1,166 @@
 import 'hack-font/build/web/hack.css';
 import Highlight, {defaultProps} from 'prism-react-renderer';
+import React, {useEffect, useState} from 'react';
 import {interpolate, spring, useCurrentFrame, useVideoConfig} from 'remotion';
 import styled from 'styled-components';
 import './prism.css';
 
-const getProgressOfLine = ({
-	line,
+const getLineStyle = ({
+	lineStatus,
 	frame,
 	fps,
-	timing,
 }: {
-	line: number;
+	lineStatus: LineStatus;
 	frame: number;
 	fps: number;
-	timing: Timing[];
 }) => {
-	const segment = timing.find((t) => t.line === line);
-	if (!segment) {
-		return 1;
-	}
-	return spring({
-		fps,
-		frame: frame - segment.from,
-		config: {
-			stiffness: 200,
-			damping: 100,
-			mass: 0.5,
-			overshootClamping: true,
-		},
+	if (!lineStatus) return {};
+
+	// console.log(lineStatus);
+
+	// Get closes action to the current frame
+	const closest = lineStatus.actions.reduce((a, b) => {
+		return Math.abs(b.from - frame) < Math.abs(a.from - frame) ? b : a;
 	});
+
+	if (closest.type === 'out') {
+		const animation = spring({
+			fps,
+			frame: frame - closest.from, // if this gets positive the spring animation starts -> when frame gets larger than closest.from
+			config: {
+				stiffness: 200,
+				damping: 100,
+				mass: 0.5,
+				overshootClamping: true,
+			},
+			to: 0,
+			from: lineStatus.currentStyle.opacity ?? 1,
+		});
+
+		lineStatus.currentStyle['opacity'] = animation;
+		lineStatus.currentStyle['lineHeight'] = interpolate(
+			animation,
+			[0, 1],
+			[0, 1.53]
+		);
+		lineStatus.currentStyle['fontSize'] = animation + 'em';
+	}
+
+	if (closest.type === 'in') {
+		const animation = spring({
+			fps,
+			frame: frame - closest.from,
+			config: {
+				stiffness: 200,
+				damping: 100,
+				mass: 0.5,
+				overshootClamping: true,
+			},
+			to: 1,
+			from: lineStatus.currentStyle.opacity ?? 0,
+		});
+
+		lineStatus.currentStyle['opacity'] = animation;
+		lineStatus.currentStyle['lineHeight'] = interpolate(
+			animation,
+			[0, 1],
+			[0, 1.53]
+		);
+		lineStatus.currentStyle['fontSize'] = animation + 'em';
+	}
+
+	if (closest.type === 'unhighlight') {
+		const animation = spring({
+			fps,
+			frame: frame - closest.from,
+			config: {
+				stiffness: 200,
+				damping: 100,
+				mass: 0.5,
+				overshootClamping: true,
+			},
+			to: 0.3,
+			from: lineStatus.currentStyle.opacity ?? 1,
+		});
+
+		lineStatus.currentStyle['opacity'] = animation;
+	}
+
+	if (closest.type === 'highlight') {
+		const animation = spring({
+			fps,
+			frame: frame - closest.from,
+			config: {
+				stiffness: 200,
+				damping: 100,
+				mass: 0.5,
+				overshootClamping: true,
+			},
+			to: 1,
+			from: lineStatus.currentStyle.opacity ?? 0.5,
+		});
+
+		lineStatus.currentStyle['opacity'] = animation;
+	}
+
+	return lineStatus.currentStyle;
 };
 
-type Timing = {
+interface LineAction {
 	line: number;
 	from: number;
-};
+	type?: 'in' | 'out' | 'highlight' | 'unhighlight';
+}
+
+interface LineStatus {
+	line: number;
+	actions: LineAction[];
+	currentStyle: {[key: string]: any};
+}
 
 const CodeFrame: React.FC<{
 	code: string;
-	timing: Timing[];
+	actions: LineAction[];
 	title: string;
 	width: number;
 }> = (props) => {
-	const {code, timing, title, width} = props;
+	const {code, actions, title, width} = props;
+	const [lineStatuses, setLineStatuses] = useState<{[key: number]: LineStatus}>(
+		{}
+	);
+
+	useEffect(() => {
+		const tempLineStatuses: {[key: number]: LineStatus} = {};
+
+		for (const action of actions) {
+			// Generate LineStatus Object
+			if (!tempLineStatuses[action.line]) {
+				tempLineStatuses[action.line] = {
+					line: action.line,
+					actions: [],
+					currentStyle: {},
+				};
+			}
+
+			// Add Action
+			tempLineStatuses[action.line].actions.push(action);
+		}
+
+		// Sort Actions based on Timing
+		for (const key in tempLineStatuses) {
+			tempLineStatuses[key].actions.sort((a, b) => {
+				return a.from > b.from ? 1 : -1;
+			});
+		}
+
+		setLineStatuses(tempLineStatuses);
+	}, []);
 
 	const frame = useCurrentFrame();
 	const {fps} = useVideoConfig();
 
 	return (
-		<Container>
+		<Container zoom={1}>
 			<Frame>
 				<TitleContainer>
 					<CircleContainer>
@@ -72,31 +184,11 @@ const CodeFrame: React.FC<{
 										<Line
 											key={i}
 											{...getLineProps({line, key: i})}
-											style={{
-												opacity: getProgressOfLine({
-													line: i,
-													frame,
-													fps,
-													timing,
-												}),
-												lineHeight: interpolate(
-													getProgressOfLine({
-														line: i,
-														frame,
-														fps,
-														timing,
-													}),
-													[0, 1],
-													[0, 1.53]
-												),
-												fontSize:
-													getProgressOfLine({
-														line: i,
-														frame,
-														fps,
-														timing,
-													}) + 'em',
-											}}
+											style={getLineStyle({
+												lineStatus: lineStatuses[i],
+												frame,
+												fps,
+											})}
 										>
 											<LineContent>
 												{line.map((token, key) => {
@@ -127,11 +219,14 @@ const CodeFrame: React.FC<{
 
 export default CodeFrame;
 
-const Container = styled.div`
+const Container = styled.div<{
+	zoom: number;
+}>`
 	flex: 1;
 	justify-content: center;
 	align-items: center;
 	display: flex;
+	zoom: ${(props) => props.zoom};
 `;
 
 // pre = https://www.youtube.com/watch?v=9jZLg2CIgQQ
@@ -139,7 +234,7 @@ const CodeContainer = styled.pre<{
 	width: number;
 }>`
 	text-align: left;
-	margin: 0 !important;
+	margin: 0 100px 0 0 !important;
 	font-size: 40px;
 	width: ${(props) => props.width}px;
 `;
@@ -155,7 +250,7 @@ const LineContent = styled.span`
 const Frame = styled.div`
 	border: 3px solid var(--ifm-color-purple-lightest);
 	border-radius: 20px;
-	background-color: var(--ifm-color-black-lighter);
+	background-color: var(--ifm-color-black-light);
 	overflow: hidden;
 
 	font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,

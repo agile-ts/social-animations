@@ -53,22 +53,22 @@ const Test: React.FC = () => {
 					code={code}
 					width={1400}
 					title="MyComponent.tsx"
-					timing={[
-						{line: 0, from: 20},
-						{line: 1, from: 20},
+					actions={[
+						{line: 0, from: 5, type: 'in'},
+						{line: 1, from: 20, type: 'in'},
 
-						{line: 3, from: 50},
-						{line: 4, from: 50},
+						{line: 3, from: 50, type: 'in'},
+						{line: 4, from: 50, type: 'in'},
 
-						{line: 7, from: 100},
-						{line: 8, from: 100},
-						{line: 9, from: 100},
-						{line: 11, from: 100},
+						{line: 7, from: 100, type: 'in'},
+						{line: 8, from: 100, type: 'in'},
+						{line: 9, from: 100, type: 'in'},
+						{line: 11, from: 100, type: 'in'},
 
-						{line: 12, from: 200},
-						{line: 13, from: 200},
-						{line: 14, from: 200},
-						{line: 15, from: 200},
+						{line: 12, from: 200, type: 'in'},
+						{line: 13, from: 200, type: 'in'},
+						{line: 14, from: 200, type: 'in'},
+						{line: 15, from: 200, type: 'in'},
 					]}
 				/>
 			</CodeContainer>
