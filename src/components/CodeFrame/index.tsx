@@ -225,6 +225,14 @@ const CodeFrame: React.FC<{
 	const frame = useCurrentFrame();
 	const {fps} = useVideoConfig();
 
+	// Reset stored styles because backwards scrolling in the timeline doesn't revert the styles.
+	if (frame === 0) {
+		generalActions.currentStyle = {};
+		for (const key in lineActionsKeymap) {
+			lineActionsKeymap[key].currentStyle = {};
+		}
+	}
+
 	useEffect(() => {
 		const tempLineActions: {[frame: string]: LineActions} = {};
 		const tempGeneralActions = generalActions;
@@ -406,7 +414,7 @@ const CodeContainer = styled.pre<{
 	width: number;
 }>`
 	text-align: left;
-	margin: 0 100px 0 0 !important;
+	margin: 0 !important;
 	font-size: 40px;
 	width: ${(props) => props.width}px;
 `;

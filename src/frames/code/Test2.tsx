@@ -21,7 +21,7 @@ const MyComponent = () => {
    );
 }`;
 
-const Test: React.FC = () => {
+const Test2: React.FC = () => {
 	const frame = useCurrentFrame();
 	const {fps, durationInFrames} = useVideoConfig();
 
@@ -43,7 +43,7 @@ const Test: React.FC = () => {
 			damping: 100,
 		},
 		from: 0,
-		to: 0.6,
+		to: 1,
 	});
 
 	return (
@@ -89,7 +89,7 @@ const Test: React.FC = () => {
 	);
 };
 
-export default Test;
+export default Test2;
 
 const CodeContainer = styled.div`
 	display: flex;
