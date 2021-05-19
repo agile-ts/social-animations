@@ -66,5 +66,5 @@ const CodeContainer = styled.div`
 `;
 
 const Container = styled(AbsoluteFill)`
-	background-color: rgba(0, 0, 0, 0);
+	background-color: var(--ifm-color-purple);
 `;

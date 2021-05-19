@@ -15,12 +15,14 @@ import {
 } from './controller';
 import './prism.css';
 
-const CodeFrame: React.FC<{
+export interface CodeFramePropsInterface {
 	code: string;
 	actions: (LineAction | GeneralAction)[];
 	title: string;
 	width: number;
-}> = (props) => {
+}
+
+const CodeFrame: React.FC<CodeFramePropsInterface> = (props) => {
 	const {code, actions, title, width} = props;
 	const [lineActionsKeymap, setLineActionsKeymap] = useState<{
 		[line: number]: LineActions;
@@ -34,15 +36,13 @@ const CodeFrame: React.FC<{
 	const {fps} = useVideoConfig();
 
 	useEffect(() => {
-		if (frame === 0) {
-			const linesOfCode = code.split(/\r\n|\r|\n/).length;
+		const linesOfCode = code.split(/\r\n|\r|\n/).length;
 
-			console.log(extractLineActions(actions, linesOfCode));
+		console.log(extractLineActions(actions, linesOfCode));
 
-			setLineActionsKeymap(extractLineActions(actions, linesOfCode));
-			setGeneralActions(extractGeneralActions(actions));
-		}
-	}, [frame]);
+		setLineActionsKeymap(extractLineActions(actions, linesOfCode));
+		setGeneralActions(extractGeneralActions(actions));
+	}, []);
 
 	return (
 		<Container style={getGeneralStyle({generalActions, frame, fps})}>

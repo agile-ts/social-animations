@@ -1,7 +1,7 @@
 import {Composition} from 'remotion';
 import Test from './compositions/code/Test';
 import Test2 from './compositions/code/Test2';
-import {Sequence1} from './sequences/Sequence1';
+import {Sequence1, sequence1Fps} from './sequences/Sequence1';
 
 export const RemotionVideo: React.FC = () => {
 	return (
@@ -27,8 +27,8 @@ export const RemotionVideo: React.FC = () => {
 				component={Sequence1}
 				width={1920}
 				height={1080}
-				fps={30}
-				durationInFrames={800}
+				fps={sequence1Fps}
+				durationInFrames={25 * sequence1Fps}
 			/>
 		</>
 	);
