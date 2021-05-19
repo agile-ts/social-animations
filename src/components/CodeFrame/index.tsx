@@ -136,9 +136,9 @@ const Frame = styled.div`
 	background-color: var(--ifm-color-black-light);
 	overflow: hidden;
 
-	box-shadow: 50px 80px 200px 0 var(--ifm-color-black-light);
-	-moz-box-shadow: 50px 80px 200px 0 var(--ifm-color-black-light);
-	-webkit-box-shadow: 50px 80px 200px 0 var(--ifm-color-black-light);
+	box-shadow: 40px 60px 150px 0 var(--ifm-color-black-light);
+	-moz-box-shadow: 40px 60px 150px 0 var(--ifm-color-black-light);
+	-webkit-box-shadow: 40px 60px 150px 0 var(--ifm-color-black-light);
 
 	font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
 		Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
@@ -166,8 +166,8 @@ const CircleContainer = styled.div`
 `;
 
 const Circle = styled.div`
-	height: 25px;
-	width: 25px;
+	height: 28px;
+	width: 28px;
 	border-radius: 50%;
 	margin: 5px;
 `;

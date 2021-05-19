@@ -1,13 +1,5 @@
 import {registerRoot} from 'remotion';
-import {RemotionVideo} from './Video';
 import './css/global.css';
+import {RemotionVideo} from './Video';
 
-const App = () => {
-	return(
-		<>
-			<RemotionVideo/>
-		</>
-	)
-}
-
-registerRoot(App);
+registerRoot(RemotionVideo);

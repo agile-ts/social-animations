@@ -1,10 +1,10 @@
 import {Sequence} from 'remotion';
 import styled from 'styled-components';
-import Test from '../frames/code/Test';
-import Test2 from '../frames/code/Test2';
+import Test from '../compositions/code/Test';
+import Test2 from '../compositions/code/Test2';
 import Transition from '../transitions/Transition';
 
-export const Composition1: React.FC = () => {
+export const Sequence1: React.FC = () => {
 	return (
 		<Container>
 			<div>
