@@ -43,11 +43,11 @@ const Test: React.FC = () => {
 					actions={[
 						{line: 3, from: 100, type: 'in'},
 						{line: 4, from: 100, type: 'in'},
-						{line: 3, from: 120, type: 'highlight'},
-						{line: 4, from: 120, type: 'highlight'},
+						{line: 3, from: 110, type: 'highlight'},
+						{line: 4, from: 110, type: 'highlight'},
 
-						{line: 3, from: 200, type: 'unhighlight'},
-						{line: 4, from: 200, type: 'unhighlight'},
+						{line: 3, from: 250, type: 'unhighlight'},
+						{line: 4, from: 250, type: 'unhighlight'},
 					]}
 				/>
 			</CodeContainer>

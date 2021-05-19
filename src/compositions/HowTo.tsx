@@ -19,7 +19,7 @@ const HowTo: React.FC<HowToPropsInterface> = (props) => {
 			damping: 200,
 		},
 	});
-	const translateY = interpolate(progress, [0, 1], [600, 0]);
+	const translateY = interpolate(progress, [0, 1], [700, 0]);
 
 	return (
 		<Container>

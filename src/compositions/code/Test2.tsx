@@ -31,7 +31,7 @@ const Test2: React.FC = () => {
 
 	// Scale Out Animation
 	const scaleOut = spring({
-		frame: frame - durationInFrames + 13,
+		frame: frame - durationInFrames + 15,
 		fps,
 		config: {
 			mass: 0.4,
@@ -60,20 +60,20 @@ const Test2: React.FC = () => {
 						{line: 6, from: 150, type: 'highlight'},
 						{line: 5, from: 250, type: 'out'},
 
-						{line: 7, from: 300, type: 'in'},
-						{line: 8, from: 300, type: 'in'},
-						{line: 9, from: 300, type: 'in'},
-						{line: 10, from: 300, type: 'in'},
+						{line: 7, from: 250, type: 'in'},
+						{line: 8, from: 250, type: 'in'},
+						{line: 9, from: 250, type: 'in'},
+						{line: 10, from: 250, type: 'in'},
 
-						{line: 7, from: 310, type: 'highlight'},
-						{line: 8, from: 310, type: 'highlight'},
-						{line: 9, from: 310, type: 'highlight'},
-						{line: 10, from: 310, type: 'highlight'},
+						{line: 7, from: 260, type: 'highlight'},
+						// {line: 8, from: 310, type: 'highlight'},
+						{line: 9, from: 260, type: 'highlight'},
+						// {line: 10, from: 310, type: 'highlight'},
 
 						{line: 7, from: 400, type: 'unhighlight'},
-						{line: 8, from: 400, type: 'unhighlight'},
+						// {line: 8, from: 400, type: 'unhighlight'},
 						{line: 9, from: 400, type: 'unhighlight'},
-						{line: 10, from: 400, type: 'unhighlight'},
+						// {line: 10, from: 400, type: 'unhighlight'},
 					]}
 				/>
 			</CodeContainer>
