@@ -1,22 +1,22 @@
 import {AbsoluteFill, spring, useCurrentFrame, useVideoConfig} from 'remotion';
 import styled from 'styled-components';
-import CodeFrame from '../../components/CodeFrame';
+import CodeFrame from '../../../components/CodeFrame';
 
 const code = `const MyComponent = () => {
-	// 3. Bind State to Component for reactivity
+	// 3️⃣ Bind State to 'MyComponent' for reactivity
    const myState = useAgile(MY_STATE); // Returns 'jeff'
 
    return (
-   	{/* Use State in Component */}
+   	{/* Use returned 'myState' value */}
      <p>{myState}</p>
-     {/* 4. Update State on Button press */}
+     {/* 4️⃣ Update State value on Button press */}
      <button onClick={() => {
      	  MY_STATE.set('frank');
      }}>Change State</button>
    );
 }`;
 
-const Test2: React.FC = () => {
+const MyComponent: React.FC = () => {
 	const frame = useCurrentFrame();
 	const {fps, durationInFrames} = useVideoConfig();
 
@@ -31,10 +31,9 @@ const Test2: React.FC = () => {
 
 	// Scale Out Animation
 	const scaleOut = spring({
-		frame: frame - durationInFrames + 15,
+		frame: frame - durationInFrames + 20,
 		fps,
 		config: {
-			mass: 0.4,
 			damping: 100,
 		},
 		from: 0,
@@ -70,9 +69,9 @@ const Test2: React.FC = () => {
 						{line: 9, from: 260, type: 'highlight'},
 						// {line: 10, from: 310, type: 'highlight'},
 
-						{line: 7, from: 400, type: 'unhighlight'},
+						{line: 7, from: 420, type: 'unhighlight'},
 						// {line: 8, from: 400, type: 'unhighlight'},
-						{line: 9, from: 400, type: 'unhighlight'},
+						{line: 9, from: 420, type: 'unhighlight'},
 						// {line: 10, from: 400, type: 'unhighlight'},
 					]}
 				/>
@@ -81,7 +80,7 @@ const Test2: React.FC = () => {
 	);
 };
 
-export default Test2;
+export default MyComponent;
 
 const CodeContainer = styled.div`
 	display: flex;

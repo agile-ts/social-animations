@@ -1,14 +1,17 @@
 import {AbsoluteFill, spring, useCurrentFrame, useVideoConfig} from 'remotion';
 import styled from 'styled-components';
-import CodeFrame from '../../components/CodeFrame';
+import CodeFrame from '../../../components/CodeFrame';
 
-const code = `// 1. Create Agile Instance
-export const App = new Agile();
+const code = `// 1️⃣ Create Instance of AgileTs
+const App = new Agile();
 
-// 2. Create State
-export const MY_STATE = App.createState('jeff');`;
+// 2️⃣ Create Collection with the help of before defined Agile Instance
+const TODOS = App.createCollection({
+  initialData: [{id: 1, name: "Clean Bathroom"}]
+}).persist('todos'); // 'persist()' does store the Collection in the LocalStorage
+`;
 
-const Test: React.FC = () => {
+const Core: React.FC = () => {
 	const frame = useCurrentFrame();
 	const {fps, durationInFrames} = useVideoConfig();
 
@@ -40,22 +43,18 @@ const Test: React.FC = () => {
 					code={code}
 					width={1500}
 					title="core.ts"
-					actions={[
-						{line: 3, from: 100, type: 'in'},
-						{line: 4, from: 100, type: 'in'},
-						{line: 3, from: 110, type: 'highlight'},
-						{line: 4, from: 110, type: 'highlight'},
-
-						{line: 3, from: 250, type: 'unhighlight'},
-						{line: 4, from: 250, type: 'unhighlight'},
-					]}
+					actions={
+						[
+							// TODO
+						]
+					}
 				/>
 			</CodeContainer>
 		</Container>
 	);
 };
 
-export default Test;
+export default Core;
 
 const CodeContainer = styled.div`
 	display: flex;

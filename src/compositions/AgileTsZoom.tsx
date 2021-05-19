@@ -18,6 +18,7 @@ const AgileTsZoom: React.FC = (props) => {
 		frame,
 		config: {
 			damping: 200,
+			mass: 0.5,
 		},
 	});
 	const scale = interpolate(progress, [0, 1], [140, 1]);
