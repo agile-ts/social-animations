@@ -1,8 +1,9 @@
 import 'hack-font/build/web/hack.css';
-import Highlight, {defaultProps} from 'prism-react-renderer';
+import Highlight, {defaultProps, Language} from 'prism-react-renderer';
 import React, {useEffect, useState} from 'react';
 import {useCurrentFrame, useVideoConfig} from 'remotion';
 import styled from 'styled-components';
+import theme from './agileTheme';
 import {
 	extractGeneralActions,
 	extractLineActions,
@@ -13,7 +14,6 @@ import {
 	LineAction,
 	LineActions,
 } from './controller';
-import './prism.css';
 
 export interface CodeFramePropsInterface {
 	code: string;
@@ -21,11 +21,13 @@ export interface CodeFramePropsInterface {
 	title: string;
 	width: number;
 	fontSize?: number;
+	language?: Language;
 }
 
 const CodeFrame: React.FC<CodeFramePropsInterface> = (props) => {
 	const {code, actions, title, width} = props;
 	const fontSize = props.fontSize ?? 40;
+	const language = props.language ?? 'jsx';
 	const [lineActionsKeymap, setLineActionsKeymap] = useState<{
 		[line: number]: LineActions;
 	}>({});
@@ -62,27 +64,32 @@ const CodeFrame: React.FC<CodeFramePropsInterface> = (props) => {
 				<div>
 					<Highlight
 						{...defaultProps}
-						theme={undefined}
-						code={code}
-						language="tsx"
+						theme={theme}
+						code={code.trim()}
+						language={language}
 					>
 						{({className, style, tokens, getLineProps, getTokenProps}) => (
-							<CodeContainer
+							<Pre
 								width={width}
 								fontSize={fontSize}
 								className={className}
 								style={style}
 							>
 								{tokens.map((line, i) => {
+									const props = getLineProps({line, key: i});
 									return (
 										<Line
 											key={i}
-											{...getLineProps({line, key: i})}
-											style={getLineStyle({
-												lineActions: lineActionsKeymap[i],
-												frame,
-												fps,
-											})}
+											{...props}
+											className={props.className}
+											style={{
+												...props.style,
+												...getLineStyle({
+													lineActions: lineActionsKeymap[i],
+													frame,
+													fps,
+												}),
+											}}
 										>
 											<LineContent>
 												{line.map((token, key) => {
@@ -90,21 +97,26 @@ const CodeFrame: React.FC<CodeFramePropsInterface> = (props) => {
 													return (
 														<span
 															key={key}
-															{...props}
+															className={props.className}
 															style={{
-																fontSize:
-																	props.children.trim() === ''
-																		? fontSize
-																		: '1em',
+																...props.style,
+																...{
+																	fontSize:
+																		props.children.trim() === ''
+																			? fontSize
+																			: '1em',
+																},
 															}}
-														/>
+														>
+															{props.children}
+														</span>
 													);
 												})}
 											</LineContent>
 										</Line>
 									);
 								})}
-							</CodeContainer>
+							</Pre>
 						)}
 					</Highlight>
 				</div>
@@ -178,12 +190,13 @@ const YellowCircle = styled(Circle)`
 `;
 
 // pre = https://www.youtube.com/watch?v=9jZLg2CIgQQ
-const CodeContainer = styled.pre<{
+const Pre = styled.pre<{
 	width: number;
 	fontSize: number;
 }>`
 	text-align: left;
 	margin: 0 !important;
+	padding: 0.5em;
 	font-size: ${(props) => props.fontSize}px;
 	width: ${(props) => props.width}px;
 `;

@@ -2,11 +2,13 @@ import {AbsoluteFill, spring, useCurrentFrame, useVideoConfig} from 'remotion';
 import styled from 'styled-components';
 import CodeFrame from '../../../components/CodeFrame';
 
-const code = `// 1️⃣ Create Instance of AgileTs
+const code = `
+// 1️⃣ Create Instance of AgileTs
 export const App = new Agile();
 
 // 2️⃣ Create State with initial value 'jeff'
-export const MY_STATE = App.createState('jeff');`;
+export const MY_STATE = App.createState('jeff');
+`;
 
 const Core: React.FC = () => {
 	const frame = useCurrentFrame();

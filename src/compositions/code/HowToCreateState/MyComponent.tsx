@@ -2,7 +2,8 @@ import {AbsoluteFill, spring, useCurrentFrame, useVideoConfig} from 'remotion';
 import styled from 'styled-components';
 import CodeFrame from '../../../components/CodeFrame';
 
-const code = `const MyComponent = () => {
+const code = `
+const MyComponent = () => {
 	// 3️⃣ Bind State to 'MyComponent' for reactivity
    const myState = useAgile(MY_STATE); // Returns 'jeff'
 
@@ -14,7 +15,8 @@ const code = `const MyComponent = () => {
      	  MY_STATE.set('frank');
      }}>Change State</button>
    );
-}`;
+}
+`;
 
 const MyComponent: React.FC = () => {
 	const frame = useCurrentFrame();

@@ -2,7 +2,8 @@ import {AbsoluteFill, spring, useCurrentFrame, useVideoConfig} from 'remotion';
 import styled from 'styled-components';
 import CodeFrame from '../../../components/CodeFrame';
 
-const code = `const MyComponent = () => {
+const code = `
+const MyComponent = () => {
     // 3️⃣ Bind Collection to 'MyComponent' for reactivity
     const todos = useAgile(TODOS);
 
@@ -29,6 +30,7 @@ const code = `const MyComponent = () => {
                 Add
             </button>
             {
+            	  // Use returned 'todos' value 
                 todos.map((value) =>
                     <div key={value.id} style={{marginBottom: 10}}>
                         <div>{value.name}</div>
@@ -43,7 +45,8 @@ const code = `const MyComponent = () => {
             }
         </div>
     );
-}`;
+}
+`;
 
 const MyComponent: React.FC = () => {
 	const frame = useCurrentFrame();
@@ -76,12 +79,34 @@ const MyComponent: React.FC = () => {
 					code={code}
 					width={1500}
 					title="MyComponent.tsx"
-					fontSize={25}
+					fontSize={30}
 					actions={[
-						{from: 0, z: 1},
+						{from: 0, z: -200},
 
-						{from: 50, z: 50, x: 200},
-						// TODO
+						{from: 50, z: 50, x: 25, y: 300},
+
+						// Step 3
+						{line: 1, from: 60, type: 'in'},
+						{line: 2, from: 60, type: 'in'},
+						{line: 1, from: 70, type: 'highlight'},
+						{line: 2, from: 70, type: 'highlight'},
+
+						{from: 200, z: 50, x: 25, y: -400},
+
+						// Step 3.1
+						{line: 27, from: 190, type: 'in'},
+						{line: 27, from: 200, type: 'highlight'},
+						{line: 28, from: 200, type: 'highlight'},
+						{line: 38, from: 200, type: 'highlight'},
+						{line: 27, from: 300, type: 'out'},
+
+						{from: 200, z: 50, x: 25, y: -200},
+
+						// Step 4
+						{line: 20, from: 310, type: 'in'},
+						{line: 21, from: 310, type: 'in'},
+						{line: 20, from: 320, type: 'highlight'},
+						{line: 21, from: 320, type: 'highlight'},
 					]}
 				/>
 			</CodeContainer>
