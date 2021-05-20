@@ -1,4 +1,5 @@
 import {interpolate, spring} from 'remotion';
+import {normalizeArray} from '../../utils';
 
 export const extractLineActions = (
 	actions: (LineAction | GeneralAction)[],
@@ -15,7 +16,10 @@ export const extractLineActions = (
 	// {highlight: {10: [1, 2, 3]}} -> 'highlight' = Action Name; '10' = Frame; '[1, 2, 3]' = Lines affected by the action
 	const invertedActions: {[key: string]: {[frame: number]: number[]}} = {};
 
-	const addLineAction = (action: LineAction, hasToBeVisible = false) => {
+	const addLineAction = (
+		action: LineActionWithOneLine,
+		hasToBeVisible = false
+	) => {
 		let currentLineActions = tempLineActions[action.line];
 
 		// Generate LinesAction Object, which represents all actions of the line
@@ -50,41 +54,50 @@ export const extractLineActions = (
 		let add = true;
 
 		if (instanceOfLineAction(action)) {
-			// Add highlight action to 'invertedActions',
-			// since the actual action is to unhighlight the other lines
-			if (action.type === 'highlight') {
-				if (!invertedActions['highlight']) {
-					invertedActions['highlight'] = {};
+			action.line = normalizeArray(action.line);
+
+			for (const key in action.line) {
+				// Add highlight action to 'invertedActions',
+				// since the actual action is to unhighlight the other lines
+				if (action.type === 'highlight') {
+					if (!invertedActions['highlight']) {
+						invertedActions['highlight'] = {};
+					}
+
+					if (invertedActions['highlight'][action.from]) {
+						invertedActions['highlight'][action.from].push(action.line[key]);
+					} else invertedActions['highlight'][action.from] = [action.line[key]];
+
+					// Add action because if we want to highlight a current unhiglighted line
+					// we need this action to be performed
+					add = true;
 				}
 
-				if (invertedActions['highlight'][action.from]) {
-					invertedActions['highlight'][action.from].push(action.line);
-				} else invertedActions['highlight'][action.from] = [action.line];
+				// Add unhighlight action to 'invertedActions',
+				// since the actual action is to highlight the other lines
+				if (action.type === 'unhighlight') {
+					if (!invertedActions['unhighlight']) {
+						invertedActions['unhighlight'] = {};
+					}
 
-				// Add action because if we want to highlight a current unhiglighted line
-				// we need this action to be performed
-				add = true;
-			}
+					if (invertedActions['unhighlight'][action.from]) {
+						invertedActions['unhighlight'][action.from].push(action.line[key]);
+					} else
+						invertedActions['unhighlight'][action.from] = [action.line[key]];
 
-			// Add unhighlight action to 'invertedActions',
-			// since the actual action is to highlight the other lines
-			if (action.type === 'unhighlight') {
-				if (!invertedActions['unhighlight']) {
-					invertedActions['unhighlight'] = {};
+					// Don't add action because if we want to unhighlight a line,
+					// the actual line shouldn't be unhighlighted,
+					// instead the other lines should be highlighted
+					add = false;
 				}
 
-				if (invertedActions['unhighlight'][action.from]) {
-					invertedActions['unhighlight'][action.from].push(action.line);
-				} else invertedActions['unhighlight'][action.from] = [action.line];
-
-				// Don't add action because if we want to unhighlight a line,
-				// the actual line shouldn't be unhighlighted,
-				// instead the other lines should be highlighted
-				add = false;
-			}
-
-			if (add) {
-				addLineAction(action);
+				if (add) {
+					addLineAction({
+						from: action.from,
+						line: action.line[key],
+						type: action.type,
+					});
+				}
 			}
 		}
 	}
@@ -350,11 +363,17 @@ export const getLineStyle = ({
 
 export interface LineActions {
 	line: number;
-	actions: LineAction[];
+	actions: LineActionWithOneLine[];
 	currentStyle: {[key: string]: any};
 }
 
 export interface LineAction {
+	line: number[] | number;
+	from: number;
+	type: 'in' | 'out' | 'highlight' | 'unhighlight';
+}
+
+export interface LineActionWithOneLine {
 	line: number;
 	from: number;
 	type: 'in' | 'out' | 'highlight' | 'unhighlight';

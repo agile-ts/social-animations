@@ -46,19 +46,10 @@ const Core: React.FC = () => {
 					title="core.ts"
 					fontSize={40}
 					actions={[
-						{line: 3, from: 100, type: 'in'},
-						{line: 4, from: 100, type: 'in'},
-						{line: 5, from: 100, type: 'in'},
-						{line: 6, from: 100, type: 'in'},
-						{line: 3, from: 110, type: 'highlight'},
-						{line: 4, from: 110, type: 'highlight'},
-						{line: 5, from: 110, type: 'highlight'},
-						{line: 6, from: 110, type: 'highlight'},
+						{line: [3, 4, 5, 6], from: 100, type: 'in'},
+						{line: [3, 4, 5, 6], from: 110, type: 'highlight'},
 
-						{line: 3, from: 200, type: 'unhighlight'},
-						{line: 4, from: 200, type: 'unhighlight'},
-						{line: 5, from: 200, type: 'unhighlight'},
-						{line: 6, from: 200, type: 'unhighlight'},
+						{line: [3, 4, 5, 6], from: 200, type: 'unhighlight'},
 					]}
 				/>
 			</CodeContainer>

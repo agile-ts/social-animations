@@ -57,67 +57,11 @@ const theme: PrismTheme = {
 			},
 		},
 		{
-			types: ['atrule', 'keyword', 'regex', 'important', 'variable'],
+			types: ['keyword', 'regex', 'important', 'variable'],
 			style: {
 				color: '#8481AF',
 			},
 		},
-
-		// {
-		// 	types: ['prolog', 'constant', 'builtin'],
-		// 	style: {
-		// 		color: '#e1aa76',
-		// 	},
-		// },
-		// {
-		// 	types: ['inserted', 'function'],
-		// 	style: {
-		// 		color: 'rgb(80, 250, 123)',
-		// 	},
-		// },
-		// {
-		// 	types: ['deleted'],
-		// 	style: {
-		// 		color: 'rgb(255, 85, 85)',
-		// 	},
-		// },
-		// {
-		// 	types: ['changed'],
-		// 	style: {
-		// 		color: 'rgb(255, 184, 108)',
-		// 	},
-		// },
-		// {
-		// 	types: ['punctuation', 'symbol'],
-		// 	style: {
-		// 		color: '#EE8030',
-		// 	},
-		// },
-		// {
-		// 	types: ['string', 'char', 'tag', 'selector'],
-		// 	style: {
-		// 		color: '#00CCB1',
-		// 	},
-		// },
-		// {
-		// 	types: ['keyword', 'variable', 'regex', 'important'],
-		// 	style: {
-		// 		color: '#8481AF',
-		// 		fontStyle: 'italic',
-		// 	},
-		// },
-		// {
-		// 	types: ['comment'],
-		// 	style: {
-		// 		color: '#00CCB1',
-		// 	},
-		// },
-		// {
-		// 	types: ['attr-name'],
-		// 	style: {
-		// 		color: '#e1aa76',
-		// 	},
-		// },
 	],
 };
 

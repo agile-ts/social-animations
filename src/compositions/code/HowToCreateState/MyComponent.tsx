@@ -4,11 +4,11 @@ import CodeFrame from '../../../components/CodeFrame';
 
 const code = `
 const MyComponent = () => {
-	// 3️⃣ Bind State to 'MyComponent' for reactivity
+   // 3️⃣ Bind State to 'MyComponent' for reactivity
    const myState = useAgile(MY_STATE); // Returns 'jeff'
 
    return (
-   	{/* Use returned 'myState' value */}
+     {/* Use returned 'myState' value */}
      <p>{myState}</p>
      {/* 4️⃣ Update State value on Button press */}
      <button onClick={() => {
