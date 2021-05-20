@@ -5,10 +5,10 @@ import CodeFrame from '../../../components/CodeFrame';
 const code = `// 1️⃣ Create Instance of AgileTs
 const App = new Agile();
 
-// 2️⃣ Create Collection with the help of before defined Agile Instance
+// 2️⃣ Create Collection
 const TODOS = App.createCollection({
   initialData: [{id: 1, name: "Clean Bathroom"}]
-}).persist('todos'); // 'persist()' does store the Collection in the LocalStorage
+});
 `;
 
 const Core: React.FC = () => {
@@ -43,11 +43,22 @@ const Core: React.FC = () => {
 					code={code}
 					width={1500}
 					title="core.ts"
-					actions={
-						[
-							// TODO
-						]
-					}
+					fontSize={40}
+					actions={[
+						{line: 3, from: 100, type: 'in'},
+						{line: 4, from: 100, type: 'in'},
+						{line: 5, from: 100, type: 'in'},
+						{line: 6, from: 100, type: 'in'},
+						{line: 3, from: 110, type: 'highlight'},
+						{line: 4, from: 110, type: 'highlight'},
+						{line: 5, from: 110, type: 'highlight'},
+						{line: 6, from: 110, type: 'highlight'},
+
+						{line: 3, from: 200, type: 'unhighlight'},
+						{line: 4, from: 200, type: 'unhighlight'},
+						{line: 5, from: 200, type: 'unhighlight'},
+						{line: 6, from: 200, type: 'unhighlight'},
+					]}
 				/>
 			</CodeContainer>
 		</Container>

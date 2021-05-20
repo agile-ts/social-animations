@@ -2,8 +2,8 @@ import {AbsoluteFill, spring, useCurrentFrame, useVideoConfig} from 'remotion';
 import styled from 'styled-components';
 import CodeFrame from '../../../components/CodeFrame';
 
-const code = `const RandomComponent = () => {
-    // 3️⃣ Bind initialized Collection to 'RandomComponent' for reactivity
+const code = `const MyComponent = () => {
+    // 3️⃣ Bind Collection to 'MyComponent' for reactivity
     const todos = useAgile(TODOS);
 
     // Current Input of Name Form
@@ -12,7 +12,11 @@ const code = `const RandomComponent = () => {
     return (
         <div>
             <h3>Simple TODOS</h3>
-            <input type="text" name="name" value={currentInput} onChange={(event) => {
+            <input 
+            type="text" 
+            name="name" 
+            value={currentInput} 
+            onChange={(event) => {
                 setCurrentInput(event.target.value);
             }}/>
             <button onClick={() => {
@@ -72,11 +76,13 @@ const MyComponent: React.FC = () => {
 					code={code}
 					width={1500}
 					title="MyComponent.tsx"
-					actions={
-						[
-							// TODO
-						]
-					}
+					fontSize={25}
+					actions={[
+						{from: 0, z: 1},
+
+						{from: 50, z: 50, x: 200},
+						// TODO
+					]}
 				/>
 			</CodeContainer>
 		</Container>

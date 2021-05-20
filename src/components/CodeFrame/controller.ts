@@ -173,6 +173,10 @@ export const getGeneralStyle = ({
 		return Math.abs(b.from - frame) < Math.abs(a.from - frame) ? b : a;
 	});
 
+	const currentTransformMatrix = getTransformMatrix(
+		generalActions.currentStyle['transform']
+	);
+
 	const xAnimation =
 		closest.x != null
 			? spring({
@@ -185,9 +189,9 @@ export const getGeneralStyle = ({
 						overshootClamping: true,
 					},
 					to: closest.x,
-					from: generalActions.currentStyle.left ?? undefined,
+					from: currentTransformMatrix.x,
 			  })
-			: generalActions.currentStyle.left;
+			: currentTransformMatrix.x;
 
 	const yAnimation =
 		closest.y != null
@@ -201,9 +205,9 @@ export const getGeneralStyle = ({
 						overshootClamping: true,
 					},
 					to: closest.y,
-					from: generalActions.currentStyle.top ?? undefined,
+					from: currentTransformMatrix.y,
 			  })
-			: generalActions.currentStyle.top;
+			: currentTransformMatrix.y;
 
 	const zAnimation =
 		closest.z != null
@@ -217,15 +221,32 @@ export const getGeneralStyle = ({
 						overshootClamping: true,
 					},
 					to: closest.z,
-					from: generalActions.currentStyle.zoom ?? 1,
+					from: currentTransformMatrix.z,
 			  })
-			: generalActions.currentStyle.zoom;
+			: currentTransformMatrix.z;
 
-	generalActions.currentStyle['left'] = xAnimation;
-	generalActions.currentStyle['top'] = yAnimation;
-	generalActions.currentStyle['zoom'] = zAnimation;
+	generalActions.currentStyle[
+		'transform'
+		// https://www.digitalocean.com/community/tutorials/css-translatez-and-perspective
+	] = `perspective(200px) translate3d(${xAnimation}px, ${yAnimation}px, ${zAnimation}px)`;
 
 	return generalActions.currentStyle;
+};
+
+const getTransformMatrix = (translateString: string) => {
+	if (translateString == null) {
+		return {x: 0, y: 0, z: 0};
+	}
+
+	// https://stackoverflow.com/questions/7982053/get-translate3d-values-of-a-div
+	const re = /translate3d\((?<x>.*?)px, (?<y>.*?)px, (?<z>.*?)px/;
+	const results = re.exec(translateString);
+
+	return {
+		x: results?.groups?.x ? parseInt(results?.groups?.x) : undefined,
+		y: results?.groups?.y ? parseInt(results?.groups?.y) : undefined,
+		z: results?.groups?.z ? parseInt(results?.groups?.z) : undefined,
+	};
 };
 
 export const getLineStyle = ({

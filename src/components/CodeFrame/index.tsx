@@ -20,10 +20,12 @@ export interface CodeFramePropsInterface {
 	actions: (LineAction | GeneralAction)[];
 	title: string;
 	width: number;
+	fontSize?: number;
 }
 
 const CodeFrame: React.FC<CodeFramePropsInterface> = (props) => {
 	const {code, actions, title, width} = props;
+	const fontSize = props.fontSize ?? 40;
 	const [lineActionsKeymap, setLineActionsKeymap] = useState<{
 		[line: number]: LineActions;
 	}>({});
@@ -38,15 +40,17 @@ const CodeFrame: React.FC<CodeFramePropsInterface> = (props) => {
 	useEffect(() => {
 		const linesOfCode = code.split(/\r\n|\r|\n/).length;
 
+		// TODO REMOVE
 		console.log(extractLineActions(actions, linesOfCode));
+		console.log(extractGeneralActions(actions));
 
 		setLineActionsKeymap(extractLineActions(actions, linesOfCode));
 		setGeneralActions(extractGeneralActions(actions));
 	}, []);
 
 	return (
-		<Container style={getGeneralStyle({generalActions, frame, fps})}>
-			<Frame>
+		<Container>
+			<Frame style={getGeneralStyle({generalActions, frame, fps})}>
 				<TitleContainer>
 					<CircleContainer>
 						<RedCircle />
@@ -63,7 +67,12 @@ const CodeFrame: React.FC<CodeFramePropsInterface> = (props) => {
 						language="tsx"
 					>
 						{({className, style, tokens, getLineProps, getTokenProps}) => (
-							<CodeContainer width={width} className={className} style={style}>
+							<CodeContainer
+								width={width}
+								fontSize={fontSize}
+								className={className}
+								style={style}
+							>
 								{tokens.map((line, i) => {
 									return (
 										<Line
@@ -84,7 +93,9 @@ const CodeFrame: React.FC<CodeFramePropsInterface> = (props) => {
 															{...props}
 															style={{
 																fontSize:
-																	props.children.trim() === '' ? 40 : '1em',
+																	props.children.trim() === ''
+																		? fontSize
+																		: '1em',
 															}}
 														/>
 													);
@@ -110,24 +121,6 @@ const Container = styled.div`
 	justify-content: center;
 	align-items: center;
 	display: flex;
-`;
-
-// pre = https://www.youtube.com/watch?v=9jZLg2CIgQQ
-const CodeContainer = styled.pre<{
-	width: number;
-}>`
-	text-align: left;
-	margin: 0 !important;
-	font-size: 40px;
-	width: ${(props) => props.width}px;
-`;
-
-const Line = styled.div`
-	display: table-row;
-`;
-
-const LineContent = styled.span`
-	display: table-cell;
 `;
 
 const Frame = styled.div`
@@ -182,4 +175,23 @@ const GreenCircle = styled(Circle)`
 
 const YellowCircle = styled(Circle)`
 	background-color: #00ca4e;
+`;
+
+// pre = https://www.youtube.com/watch?v=9jZLg2CIgQQ
+const CodeContainer = styled.pre<{
+	width: number;
+	fontSize: number;
+}>`
+	text-align: left;
+	margin: 0 !important;
+	font-size: ${(props) => props.fontSize}px;
+	width: ${(props) => props.width}px;
+`;
+
+const Line = styled.div`
+	display: table-row;
+`;
+
+const LineContent = styled.span`
+	display: table-cell;
 `;
