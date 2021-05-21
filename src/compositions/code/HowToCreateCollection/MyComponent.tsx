@@ -30,7 +30,7 @@ const MyComponent = () => {
                 Add
             </button>
             {
-                // Displays
+                // Display Todos by mapping through the 'todos' array
                 todos.map((value) =>
                     <div key={value.id} style={{marginBottom: 10}}>
                         <div>{value.name}</div>
@@ -77,59 +77,70 @@ const MyComponent: React.FC = () => {
 			<CodeContainer style={{transform: `scale(${scale * (1 - scaleOut)})`}}>
 				<CodeFrame
 					code={code}
-					width={1500}
+					width={1300}
 					title="MyComponent.tsx"
 					fontSize={30}
 					actions={[
 						{from: 0, z: -200},
 
-						{from: 50, z: 50, x: 25, y: 100},
+						{from: 0.5 * fps, z: 50, x: 0, y: 0},
 
 						// Step 3
-						{line: [1, 2], from: 60, type: 'in'},
-						{line: [1, 2], from: 70, type: 'highlight'},
+						{from: 1 * fps + 10, line: [1, 2], type: 'in'},
+						{from: 1 * fps + 25, line: [1, 2], type: 'highlight'},
 
-						{from: 200, z: 50, x: 25, y: -400},
+						// Move
+						{from: 5 * fps, z: 50, x: 0, y: -100},
 
 						// Step 3.1
-						{line: [26, 27, 28, 29, 30, 37, 38, 39], from: 190, type: 'in'},
 						{
+							from: 5 * fps + 10,
 							line: [26, 27, 28, 29, 30, 37, 38, 39],
-							from: 200,
-							type: 'highlight',
-						},
-						{line: 27, from: 250, type: 'highlight'},
-						{line: 28, from: 250, type: 'highlight'},
-						{line: 38, from: 250, type: 'highlight'},
-						{line: 27, from: 350, type: 'out'},
-
-						{from: 350, z: 50, x: 25, y: -200},
-
-						// Step 4
-						{
-							line: [
-								10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25,
-							],
-							from: 360,
 							type: 'in',
 						},
 						{
+							from: 5 * fps + 25,
+							line: [26, 27, 28, 29, 30, 37, 38, 39],
+							type: 'highlight',
+						},
+						{from: 8 * fps, line: [27, 28, 38], type: 'highlight'},
+						{from: 12 * fps, line: 27, type: 'out'},
+
+						// Move
+						{from: 12 * fps, z: 50, x: 0, y: -20},
+
+						// Step 4
+						{
+							from: 12 * fps + 10,
 							line: [
 								10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25,
 							],
-							from: 370,
+							type: 'in',
+						},
+						{
+							from: 12 * fps + 25,
+							line: [
+								10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25,
+							],
 							type: 'highlight',
 						},
-						{line: 20, from: 450, type: 'highlight'},
-						{line: 21, from: 450, type: 'highlight'},
+						{from: 20 * fps, line: [20, 21], type: 'highlight'},
 
-						{from: 550, z: 50, x: 25, y: -500},
+						// Move
+						{from: 24 * fps, z: 50, x: 0, y: -550},
 
 						// Step 5
-						{line: [31, 32, 33, 34, 35, 36], from: 560, type: 'in'},
-						{line: [31, 32, 33, 34, 35, 36], from: 570, type: 'highlight'},
-						{line: 32, from: 650, type: 'highlight'},
-						{line: 33, from: 650, type: 'highlight'},
+						{from: 24 * fps + 10, line: [31, 32, 33, 34, 35, 36], type: 'in'},
+						{
+							from: 24 * fps + 25,
+							line: [31, 32, 33, 34, 35, 36],
+							type: 'highlight',
+						},
+						{from: 30 * fps, line: [32, 33], type: 'highlight'},
+						{from: 34 * fps, line: [32, 33], type: 'unhighlight'},
+
+						// Move
+						{from: 34 * fps, z: -200, x: 0, y: 0},
 					]}
 				/>
 			</CodeContainer>
