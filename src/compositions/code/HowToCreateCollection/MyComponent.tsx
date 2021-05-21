@@ -4,48 +4,50 @@ import CodeFrame from '../../../components/CodeFrame';
 
 const code = `
 const MyComponent = () => {
-    // 3️⃣ Bind Collection to 'MyComponent' for reactivity
-    const todos = useAgile(TODOS);
+  // 3️⃣ Bind Collection to 'MyComponent' for reactivity
+  const todos = useAgile(TODOS);
 
-    // Current Input of Name Form
-    const [currentInput, setCurrentInput] = React.useState("");
+  // Current Input of Name Form
+  const [currentInput, setCurrentInput] = React.useState('');
 
-    return (
-        <div>
-            <h3>Simple TODOS</h3>
-            <input 
-            type="text" 
-            name="name" 
-            value={currentInput} 
-            onChange={(event) => {
-                setCurrentInput(event.target.value);
-            }}/>
-            <button onClick={() => {
-              if(currentInput === '') return;
-                
-              // 4️⃣ Add new Todo to Collection based on current input
-              TODOS.collect({id: generateId(), name: currentInput});
-              setCurrentInput('');
-            }}>
-                Add
+  return (
+    <div>
+      <h3>Simple Todo List</h3>
+      <input
+        type="text"
+        name="name"
+        value={currentInput}
+        onChange={(event) => {
+          setCurrentInput(event.target.value);
+        }}
+      />
+      {/* 4️⃣ Add new Todo to Collection based on current input */}
+      <button
+        onClick={() => {
+          if (currentInput === '') return;
+          TODOS.collect({ id: generateId(), name: currentInput });
+          setCurrentInput('');
+        }}>
+        Add
+      </button>
+      {
+        // Display Todos by mapping through the 'todos' array
+        todos.map((value) => (
+          <div key={value.id} style={{ marginBottom: 10 }}>
+            <div>{value.name}</div>
+            {/* 5️⃣ Remove Todo from Collection on button press */}
+            <button
+              onClick={() => {
+                TODOS.remove(value.id).everywhere();
+              }}>
+              Remove
             </button>
-            {
-                // Display Todos by mapping through the 'todos' array
-                todos.map((value) =>
-                    <div key={value.id} style={{marginBottom: 10}}>
-                        <div>{value.name}</div>
-                        <button style={{margin: 0}}  onClick={() => {
-                         // 5️⃣ Remove Todo from Collection on button press
-                         TODOS.remove(value.id).everywhere();
-                        }}>
-                           Remove
-                        </button>
-                    </div>
-                )
-            }
-        </div>
-    );
-}
+          </div>
+        ))
+      }
+    </div>
+  );
+};
 `;
 
 const MyComponent: React.FC = () => {
@@ -90,57 +92,60 @@ const MyComponent: React.FC = () => {
 						{from: 1 * fps + 25, line: [1, 2], type: 'highlight'},
 
 						// Move
-						{from: 5 * fps, z: 50, x: 0, y: -100},
+						{from: 6 * fps, z: 50, x: 0, y: -100},
 
 						// Step 3.1
 						{
-							from: 5 * fps + 10,
-							line: [26, 27, 28, 29, 30, 37, 38, 39],
+							from: 6 * fps + 10,
+							line: [27, 28, 29, 30, 31, 39, 40, 41],
 							type: 'in',
 						},
 						{
-							from: 5 * fps + 25,
-							line: [26, 27, 28, 29, 30, 37, 38, 39],
+							from: 6 * fps + 25,
+							line: [27, 28, 29, 30, 31, 39, 40, 41],
 							type: 'highlight',
 						},
-						{from: 8 * fps, line: [27, 28, 38], type: 'highlight'},
-						{from: 12 * fps, line: 27, type: 'out'},
+						{from: 11 * fps, line: [28, 29, 40], type: 'highlight'},
+						{from: 16 * fps, line: 28, type: 'out'},
 
 						// Move
-						{from: 12 * fps, z: 50, x: 0, y: -20},
+						{from: 16 * fps + 10, z: 50, x: 0, y: -20},
 
 						// Step 4
 						{
-							from: 12 * fps + 10,
+							from: 16 * fps + 10,
 							line: [
 								10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25,
+								26,
 							],
 							type: 'in',
 						},
 						{
-							from: 12 * fps + 25,
-							line: [
-								10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25,
-							],
+							from: 16 * fps + 25,
+							line: [18, 19, 20, 21, 22, 23, 24, 25, 26],
 							type: 'highlight',
 						},
-						{from: 20 * fps, line: [20, 21], type: 'highlight'},
+						{from: 21 * fps, line: [18, 22], type: 'highlight'},
 
 						// Move
-						{from: 24 * fps, z: 50, x: 0, y: -550},
+						{from: 26 * fps, z: 50, x: 0, y: -550},
 
 						// Step 5
-						{from: 24 * fps + 10, line: [31, 32, 33, 34, 35, 36], type: 'in'},
 						{
-							from: 24 * fps + 25,
-							line: [31, 32, 33, 34, 35, 36],
+							from: 26 * fps + 10,
+							line: [32, 33, 34, 35, 36, 37, 38],
+							type: 'in',
+						},
+						{
+							from: 26 * fps + 25,
+							line: [32, 33, 34, 35, 36, 37, 38],
 							type: 'highlight',
 						},
-						{from: 30 * fps, line: [32, 33], type: 'highlight'},
-						{from: 34 * fps, line: [32, 33], type: 'unhighlight'},
+						{from: 31 * fps, line: [32, 35], type: 'highlight'},
+						{from: 36 * fps, line: [32, 35], type: 'unhighlight'},
 
 						// Move
-						{from: 34 * fps, z: -200, x: 0, y: 0},
+						{from: 36 * fps, z: -200, x: 0, y: 0},
 					]}
 				/>
 			</CodeContainer>

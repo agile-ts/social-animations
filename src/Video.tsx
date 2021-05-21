@@ -1,29 +1,29 @@
 import {Composition} from 'remotion';
-import HowToCreateCollectionSequence, {
-	fps as howToCreateCollectionSequenceFps,
-} from './sequences/HowToCreateCollectionSequence';
-import HowToCreateStateSequence, {
-	fps as howToCreateStateSequenceFps,
-} from './sequences/HowToCreateStateSequence';
+import HowToUseCollectionSequence, {
+	fps as howToUseCollectionSequenceFps,
+} from './sequences/HowToUseCollectionSequence';
+import HowToUseAStateSequence, {
+	fps as howToUseStateSequenceFps,
+} from './sequences/HowToUseStateSequence';
 
 export const RemotionVideo: React.FC = () => {
 	return (
 		<>
 			<Composition
-				id={'HowToCreateStateSequence'}
-				component={HowToCreateStateSequence}
+				id={'HowToUseStateSequence'}
+				component={HowToUseAStateSequence}
 				width={1920}
 				height={1080}
-				fps={howToCreateStateSequenceFps}
-				durationInFrames={40 * howToCreateStateSequenceFps}
+				fps={howToUseStateSequenceFps}
+				durationInFrames={40 * howToUseStateSequenceFps}
 			/>
 			<Composition
-				id={'HowToCreateCollectionSequence'}
-				component={HowToCreateCollectionSequence}
+				id={'HowToUseCollectionSequence'}
+				component={HowToUseCollectionSequence}
 				width={1920}
 				height={1080}
-				fps={howToCreateCollectionSequenceFps}
-				durationInFrames={60 * howToCreateCollectionSequenceFps}
+				fps={howToUseCollectionSequenceFps}
+				durationInFrames={60 * howToUseCollectionSequenceFps}
 			/>
 		</>
 	);

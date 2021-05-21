@@ -9,14 +9,14 @@ import Transition from '../transitions/Transition';
 
 export const fps = 30;
 
-const HowToCreateCollectionSequence: React.FC = () => {
+const HowToUseCollectionSequence: React.FC = () => {
 	const frame = useCurrentFrame();
 
 	return (
 		<Container purple={frame > 6 * fps}>
 			<div>
 				<Sequence from={0} durationInFrames={3 * fps}>
-					<HowTo text={'How to create a <br /> Collection in AgileTs?'} />
+					<HowTo text={'How to use a <br /> Collection in AgileTs?'} />
 				</Sequence>
 				<Sequence from={3 * fps - 5} durationInFrames={100}>
 					<Transition type="in">
@@ -43,7 +43,7 @@ const HowToCreateCollectionSequence: React.FC = () => {
 	);
 };
 
-export default HowToCreateCollectionSequence;
+export default HowToUseCollectionSequence;
 
 const Container = styled.div<{purple: boolean}>`
 	flex: 1;

@@ -50,31 +50,18 @@ const MyComponent: React.FC = () => {
 					width={1500}
 					title="MyComponent.tsx"
 					actions={[
-						{line: 1, from: 50, type: 'in'},
-						{line: 2, from: 50, type: 'in'},
-						{line: 6, from: 50, type: 'in'},
+						{from: 1 * fps, line: [1, 2], type: 'in'},
 
-						{line: 1, from: 60, type: 'highlight'},
-						{line: 2, from: 60, type: 'highlight'},
+						{from: 1 * fps + 15, line: [1, 2], type: 'highlight'},
 
-						{line: 5, from: 150, type: 'in'},
-						{line: 6, from: 150, type: 'highlight'},
-						{line: 5, from: 250, type: 'out'},
+						{from: 5 * fps, line: [5, 6], type: 'in'},
+						{from: 5 * fps + 15, line: [5, 6], type: 'highlight'},
+						{from: 10 * fps, line: 5, type: 'out'},
 
-						{line: 7, from: 250, type: 'in'},
-						{line: 8, from: 250, type: 'in'},
-						{line: 9, from: 250, type: 'in'},
-						{line: 10, from: 250, type: 'in'},
-
-						{line: 7, from: 260, type: 'highlight'},
-						// {line: 8, from: 310, type: 'highlight'},
-						{line: 9, from: 260, type: 'highlight'},
-						// {line: 10, from: 310, type: 'highlight'},
-
-						{line: 7, from: 420, type: 'unhighlight'},
-						// {line: 8, from: 400, type: 'unhighlight'},
-						{line: 9, from: 420, type: 'unhighlight'},
-						// {line: 10, from: 400, type: 'unhighlight'},
+						{from: 10 * fps, line: [7, 8, 9, 10], type: 'in'},
+						{from: 10 * fps + 15, line: [7, 8, 9, 10], type: 'highlight'},
+						{from: 12 * fps, line: [7, 9], type: 'highlight'},
+						{from: 17 * fps, line: [7, 9], type: 'unhighlight'},
 					]}
 				/>
 			</CodeContainer>

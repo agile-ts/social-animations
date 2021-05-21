@@ -46,10 +46,9 @@ const Core: React.FC = () => {
 					title="core.ts"
 					fontSize={40}
 					actions={[
-						{line: [3, 4, 5, 6], from: 100, type: 'in'},
-						{line: [3, 4, 5, 6], from: 110, type: 'highlight'},
-
-						{line: [3, 4, 5, 6], from: 250, type: 'unhighlight'},
+						{from: 5 * fps, line: [3, 4, 5, 6], type: 'in'},
+						{from: 5 * fps + 10, line: [3, 4, 5, 6], type: 'highlight'},
+						{from: 10 * fps, line: [3, 4, 5, 6], type: 'unhighlight'},
 					]}
 				/>
 			</CodeContainer>

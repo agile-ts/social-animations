@@ -43,13 +43,9 @@ const Core: React.FC = () => {
 					width={1500}
 					title="core.ts"
 					actions={[
-						{line: 3, from: 100, type: 'in'},
-						{line: 4, from: 100, type: 'in'},
-						{line: 3, from: 110, type: 'highlight'},
-						{line: 4, from: 110, type: 'highlight'},
-
-						{line: 3, from: 200, type: 'unhighlight'},
-						{line: 4, from: 200, type: 'unhighlight'},
+						{from: 5 * fps, line: [3, 4], type: 'in'},
+						{from: 5 * fps + 10, line: [3, 4], type: 'highlight'},
+						{from: 10 * fps, line: [3, 4], type: 'unhighlight'},
 					]}
 				/>
 			</CodeContainer>

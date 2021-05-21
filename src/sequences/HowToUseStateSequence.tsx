@@ -9,14 +9,14 @@ import Transition from '../transitions/Transition';
 
 export const fps = 30;
 
-const HowToCreateAStateSequence: React.FC = () => {
+const HowToUseAStateSequence: React.FC = () => {
 	const frame = useCurrentFrame();
 
 	return (
 		<Container purple={frame > 6 * fps}>
 			<div>
 				<Sequence from={0} durationInFrames={3 * fps}>
-					<HowTo text={'How to create a <br /> State in AgileTs?'} />
+					<HowTo text={'How to use a <br /> State in AgileTs?'} />
 				</Sequence>
 				<Sequence from={3 * fps - 5} durationInFrames={100}>
 					<Transition type="in">
@@ -43,7 +43,7 @@ const HowToCreateAStateSequence: React.FC = () => {
 	);
 };
 
-export default HowToCreateAStateSequence;
+export default HowToUseAStateSequence;
 
 const Container = styled.div<{purple: boolean}>`
 	flex: 1;
