@@ -30,12 +30,12 @@ const HowToCreateCollectionSequence: React.FC = () => {
 						</Transition>
 					</Transition>
 				</Sequence>
-				<Sequence from={13 * fps - 10} durationInFrames={20 * fps}>
+				<Sequence from={13 * fps - 10} durationInFrames={40 * fps}>
 					<Transition type="in">
 						<MyComponent />
 					</Transition>
 				</Sequence>
-				<Sequence from={33 * fps - 15} durationInFrames={10 * fps}>
+				<Sequence from={53 * fps - 15} durationInFrames={10 * fps}>
 					<AgileTsZoom />
 				</Sequence>
 			</div>

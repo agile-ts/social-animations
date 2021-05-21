@@ -49,7 +49,7 @@ const Core: React.FC = () => {
 						{line: [3, 4, 5, 6], from: 100, type: 'in'},
 						{line: [3, 4, 5, 6], from: 110, type: 'highlight'},
 
-						{line: [3, 4, 5, 6], from: 200, type: 'unhighlight'},
+						{line: [3, 4, 5, 6], from: 250, type: 'unhighlight'},
 					]}
 				/>
 			</CodeContainer>

@@ -135,8 +135,13 @@ export const extractLineActions = (
 		const action = tempLineActions[key];
 
 		// If line is visible
-		if (action.actions.filter((action) => action.type !== 'in').length <= 0) {
-			action.currentStyle = {opacity: 0, lineHeight: 0, fontSize: 0};
+		if (action.actions.filter((action) => action.type === 'in').length > 0) {
+			action.currentStyle = {
+				opacity: 0,
+				lineHeight: 0,
+				fontSize: 0,
+				display: 'none',
+			};
 		}
 
 		// Sort Actions based on Timing
@@ -315,6 +320,8 @@ export const getLineStyle = ({
 			from: lineActions.currentStyle.opacity ?? 0,
 		});
 
+		// Display row only if the current frame reached the .from frame
+		if (closest.from < frame) lineActions.currentStyle['display'] = 'table-row';
 		lineActions.currentStyle['opacity'] = animation;
 		lineActions.currentStyle['lineHeight'] = interpolate(
 			animation,

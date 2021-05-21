@@ -83,7 +83,7 @@ const MyComponent: React.FC = () => {
 					actions={[
 						{from: 0, z: -200},
 
-						{from: 50, z: 50, x: 25, y: 300},
+						{from: 50, z: 50, x: 25, y: 100},
 
 						// Step 3
 						{line: [1, 2], from: 60, type: 'in'},
@@ -92,31 +92,44 @@ const MyComponent: React.FC = () => {
 						{from: 200, z: 50, x: 25, y: -400},
 
 						// Step 3.1
-						{line: 27, from: 190, type: 'in'},
-						{line: 27, from: 200, type: 'highlight'},
-						{line: 28, from: 200, type: 'highlight'},
-						{line: 38, from: 200, type: 'highlight'},
-						{line: 27, from: 300, type: 'out'},
+						{line: [26, 27, 28, 29, 30, 37, 38, 39], from: 190, type: 'in'},
+						{
+							line: [26, 27, 28, 29, 30, 37, 38, 39],
+							from: 200,
+							type: 'highlight',
+						},
+						{line: 27, from: 250, type: 'highlight'},
+						{line: 28, from: 250, type: 'highlight'},
+						{line: 38, from: 250, type: 'highlight'},
+						{line: 27, from: 350, type: 'out'},
 
-						{from: 200, z: 50, x: 25, y: -200},
+						{from: 350, z: 50, x: 25, y: -200},
 
 						// Step 4
 						{
 							line: [
 								10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25,
 							],
-							from: 310,
+							from: 360,
 							type: 'in',
 						},
-						{line: 20, from: 320, type: 'highlight'},
-						{line: 21, from: 320, type: 'highlight'},
+						{
+							line: [
+								10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25,
+							],
+							from: 370,
+							type: 'highlight',
+						},
+						{line: 20, from: 450, type: 'highlight'},
+						{line: 21, from: 450, type: 'highlight'},
 
-						{from: 430, z: 50, x: 25, y: -500},
+						{from: 550, z: 50, x: 25, y: -500},
 
 						// Step 5
-						{line: [31, 32, 33, 34, 35, 36], from: 450, type: 'in'},
-						{line: 32, from: 460, type: 'highlight'},
-						{line: 33, from: 460, type: 'highlight'},
+						{line: [31, 32, 33, 34, 35, 36], from: 560, type: 'in'},
+						{line: [31, 32, 33, 34, 35, 36], from: 570, type: 'highlight'},
+						{line: 32, from: 650, type: 'highlight'},
+						{line: 33, from: 650, type: 'highlight'},
 					]}
 				/>
 			</CodeContainer>
