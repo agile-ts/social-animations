@@ -6,8 +6,8 @@ const code = `
 // 1️⃣ Create Instance of AgileTs
 export const App = new Agile();
 
-// 2️⃣ Create State with initial value 'jeff'
-export const MY_STATE = App.createState('jeff');
+// 2️⃣ Create State with initial value '0'
+export const COUNTER = App.createState(0);
 `;
 
 const Core: React.FC = () => {

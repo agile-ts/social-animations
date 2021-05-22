@@ -5,15 +5,15 @@ import CodeFrame from '../../../components/CodeFrame';
 const code = `
 const MyComponent = () => {
    // 3️⃣ Bind State to 'MyComponent' for reactivity
-   const myState = useAgile(MY_STATE); // Returns 'jeff'
+   const counter = useAgile(COUNTER);
 
    return (
-     {/* Use returned 'myState' value */}
-     <p>{myState}</p>
+     {/* Use returned 'counter' value */}
+     <p>{counter}</p>
      {/* 4️⃣ Update State value on Button press */}
      <button onClick={() => {
-     	  MY_STATE.set('frank');
-     }}>Change State</button>
+     	  MY_STATE.set((c) => c + 1);
+     }}>+</button>
    );
 }
 `;

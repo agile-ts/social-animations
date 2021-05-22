@@ -6,7 +6,7 @@ import {
 	useVideoConfig,
 } from 'remotion';
 import styled from 'styled-components';
-import logo from '../../static/AgileTsLogo.png';
+import logo from './AgileTsLogo.png';
 
 const AgileTsZoom: React.FC = (props) => {
 	const {fps} = useVideoConfig();
