@@ -1,11 +1,11 @@
 import {Sequence, useCurrentFrame} from 'remotion';
 import styled from 'styled-components';
-import Black from '../components/colors/Black';
-import Core from '../compositions/final/TodoListExample/Core';
-import MyComponent from '../compositions/final/TodoListExample/MyComponent';
-import AgileTsZoom from '../compositions/parts/AgileTsZoom';
-import HowTo from '../compositions/parts/HowTo';
-import Transition from '../transitions/Transition';
+import Black from '../../components/colors/Black';
+import Core from '../../compositions/final/TodoListExample/Core';
+import MyComponent from '../../compositions/final/TodoListExample/MyComponent';
+import AgileTsZoom from '../../compositions/parts/AgileTsZoom';
+import HowTo from '../../compositions/parts/HowTo';
+import Transition from '../../transitions/Transition';
 
 export const fps = 30;
 

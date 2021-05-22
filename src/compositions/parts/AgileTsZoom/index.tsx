@@ -12,7 +12,7 @@ const AgileTsZoom: React.FC = (props) => {
 	const {fps} = useVideoConfig();
 	const frame = useCurrentFrame();
 
-	// Zoom In Animation
+	// Spring Animation
 	const progress = spring({
 		fps,
 		frame,
@@ -21,18 +21,20 @@ const AgileTsZoom: React.FC = (props) => {
 			mass: 0.5,
 		},
 	});
-	const scale = interpolate(progress, [0, 1], [140, 1]);
-	const marginTop = interpolate(progress, [0, 1], [13000, 20]);
+
+	// Interpolate Animation to scale and y animation
+	const imageScale = interpolate(progress, [0, 1], [140, 1]);
+	const websiteUrlY = interpolate(progress, [0, 1], [13000, 20]);
 
 	return (
 		<Container>
 			<Img
 				src={logo}
-				style={{transform: `scale(${scale})`}}
+				style={{transform: `scale(${imageScale})`}}
 				width={200}
 				height={200}
 			/>
-			<WebsiteUrl style={{transform: `translateY(${marginTop}px)`}}>
+			<WebsiteUrl style={{transform: `translateY(${websiteUrlY}px)`}}>
 				agile-ts.org
 			</WebsiteUrl>
 		</Container>
