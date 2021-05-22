@@ -30,7 +30,7 @@ const CounterExample: React.FC = () => {
 					<Transition pointInTime={'in'} type={'slideUp'}>
 						<Showcase
 							video={video}
-							text={'Here is how it would look like at the end.'}
+							text={'Preview of application we will build.'}
 						/>
 					</Transition>
 				</Sequence>
