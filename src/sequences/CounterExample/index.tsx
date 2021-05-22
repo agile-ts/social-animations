@@ -19,14 +19,18 @@ const CounterExample: React.FC = () => {
 			<div>
 				<Sequence from={0} durationInFrames={3 * fps}>
 					<Transition pointInTime={'out'} type={'slideUp'}>
-						<HowTo text={'How to create a <br /> Counter in AgileTs?'} />
+						<HowTo
+							text={
+								"How to create a <br /> <div style='color: var(--ifm-color-purple-dark); display: inline-block'>Counter</div> in AgileTs?"
+							}
+						/>
 					</Transition>
 				</Sequence>
 				<Sequence from={3 * fps} durationInFrames={5 * fps}>
 					<Transition pointInTime={'in'} type={'slideUp'}>
 						<Showcase
 							video={video}
-							text={'The project we are building will look like that.'}
+							text={'Here is how it would look like at the end.'}
 						/>
 					</Transition>
 				</Sequence>

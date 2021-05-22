@@ -4,18 +4,24 @@ import CodeFrame from '../../../components/CodeFrame';
 
 const code = `
 const MyComponent = () => {
-   // 3️⃣ Bind State to 'MyComponent' for reactivity
-   const counter = useAgile(COUNTER);
+  // 3️⃣ Bind State to 'MyComponent' for reactivity
+  const counter = useAgile(COUNTER);
 
-   return (
-     {/* Use returned 'counter' value */}
-     <p>{counter}</p>
-     {/* 4️⃣ Update State value on Button press */}
-     <button onClick={() => {
-     	  MY_STATE.set((c) => c + 1);
-     }}>+</button>
-   );
-}
+  return (
+    <div>
+      {/* Use returned 'counter' value */}
+      <p>{counter}</p>
+      {/* 4️⃣ Update State value on Button press */}
+      <button
+        onClick={() => {
+          COUNTER.set((c) => c + 1);
+        }}
+      >
+        +
+      </button>
+    </div>
+  );
+};
 `;
 
 const MyComponent: React.FC = () => {
@@ -54,14 +60,20 @@ const MyComponent: React.FC = () => {
 
 						{from: 1 * fps + 15, line: [1, 2], type: 'highlight'},
 
-						{from: 5 * fps, line: [5, 6], type: 'in'},
-						{from: 5 * fps + 15, line: [5, 6], type: 'highlight'},
-						{from: 10 * fps, line: 5, type: 'out'},
+						{from: 5 * fps, line: [6, 7], type: 'in'},
+						{from: 5 * fps + 15, line: [6, 7], type: 'highlight'},
+						{from: 10 * fps, line: 6, type: 'out'},
 
-						{from: 10 * fps, line: [7, 8, 9, 10], type: 'in'},
-						{from: 10 * fps + 15, line: [7, 8, 9, 10], type: 'highlight'},
-						{from: 12 * fps, line: [7, 9], type: 'highlight'},
-						{from: 17 * fps, line: [7, 9], type: 'unhighlight'},
+						{from: 10 * fps, line: [8, 9, 10, 11, 12, 13, 14, 15], type: 'in'},
+						{
+							from: 10 * fps + 15,
+							line: [8, 9, 10, 11, 12, 13, 14, 15],
+							type: 'highlight',
+						},
+						{from: 12 * fps, line: [8, 11], type: 'highlight'},
+						{from: 17 * fps, line: [8, 11], type: 'unhighlight'},
+
+						{from: 17 * fps, z: -100},
 					]}
 				/>
 			</CodeContainer>
