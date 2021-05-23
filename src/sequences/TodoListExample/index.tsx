@@ -7,7 +7,7 @@ import AgileTsZoom from '../../compositions/parts/AgileTsZoom';
 import HowTo from '../../compositions/parts/HowTo';
 import Showcase from '../../compositions/parts/Showcase';
 import Transition from '../../transitions/Transition';
-import video from '../CounterExample/showcase.mp4';
+import video from './showcase.mp4';
 
 export const fps = 30;
 
@@ -24,32 +24,33 @@ const TodoListExample: React.FC = () => {
 						/>
 					</Transition>
 				</Sequence>
-				<Sequence from={3 * fps} durationInFrames={8 * fps}>
+				<Sequence from={3 * fps} durationInFrames={8.5 * fps}>
 					<Transition pointInTime={'in'} type={'slideUp'}>
 						<Showcase
+							height={800}
 							video={video}
 							text={'Here is how it would look like at the end.'}
 						/>
 					</Transition>
 				</Sequence>
-				<Sequence from={11 * fps - 10} durationInFrames={50}>
+				<Sequence from={11.5 * fps - 10} durationInFrames={50}>
 					<Transition pointInTime="in" type={'slideRight'}>
 						<Black />
 					</Transition>
 				</Sequence>
-				<Sequence from={11 * fps} durationInFrames={10 * fps}>
+				<Sequence from={11.5 * fps} durationInFrames={10 * fps}>
 					<Transition pointInTime="in" type={'slideRight'}>
 						<Transition pointInTime="out" type={'slideRight'}>
 							<Core />
 						</Transition>
 					</Transition>
 				</Sequence>
-				<Sequence from={21 * fps - 10} durationInFrames={40 * fps}>
+				<Sequence from={21.5 * fps - 10} durationInFrames={40 * fps}>
 					<Transition pointInTime="in" type={'slideRight'}>
 						<MyComponent />
 					</Transition>
 				</Sequence>
-				<Sequence from={61 * fps - 15} durationInFrames={10 * fps}>
+				<Sequence from={61.5 * fps - 15} durationInFrames={10 * fps}>
 					<AgileTsZoom />
 				</Sequence>
 			</div>

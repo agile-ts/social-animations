@@ -35,7 +35,7 @@ const MyComponent = () => {
         todos.map((value) => (
           <div key={value.id} style={{ marginBottom: 10 }}>
             <div>{value.name}</div>
-            {/* 5️⃣ Remove Todo from Collection on button press */}
+            {/* 5️⃣ Remove Todo from Collection on 'Remove' button press */}
             <button
               onClick={() => {
                 TODOS.remove(value.id).everywhere();

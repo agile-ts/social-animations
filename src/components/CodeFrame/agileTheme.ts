@@ -57,9 +57,15 @@ const theme: PrismTheme = {
 			},
 		},
 		{
-			types: ['keyword', 'regex', 'important', 'variable'],
+			types: ['keyword', 'regex', 'important'],
 			style: {
 				color: '#8481AF',
+			},
+		},
+		{
+			types: ['variable'],
+			style: {
+				color: '#ffffff',
 			},
 		},
 	],

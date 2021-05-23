@@ -12,14 +12,20 @@ import chromeHeader from './chromeHeader.svg';
 
 export interface ShowcasePropsInterface {
 	video: any;
+	height?: number;
+	width?: number;
+	videoWidth?: number;
 	text?: string;
 }
 
 const Showcase: React.FC<ShowcasePropsInterface> = (props) => {
 	const {video, text} = props;
+	const chromeHeight = props.height ?? 600;
+	const chromeWidth = props.width ?? 1500;
+	const videoWidth = props.videoWidth ?? 800;
 
 	const frame = useCurrentFrame();
-	const {fps, height, width} = useVideoConfig();
+	const {fps} = useVideoConfig();
 
 	// Spring Animation
 	const progress = spring({
@@ -34,9 +40,9 @@ const Showcase: React.FC<ShowcasePropsInterface> = (props) => {
 
 	return (
 		<Container>
-			<ChromeContainer width={1500} height={600}>
+			<ChromeContainer width={chromeWidth} height={chromeHeight}>
 				<ChromeHeader src={chromeHeader} />
-				<StyledVideo width={1000} src={video} />
+				<StyledVideo width={videoWidth} src={video} />
 			</ChromeContainer>
 			{text && (
 				<Text style={{transform: `translateY(${textY}px)`}}>{text}</Text>
@@ -61,6 +67,7 @@ const ChromeContainer = styled.div<{
 }>`
 	display: flex;
 	flex-direction: column;
+	justify-content: flex-start;
 	overflow: hidden;
 
 	height: ${(props) => props.height}px;
@@ -75,7 +82,6 @@ const ChromeContainer = styled.div<{
 const ChromeHeader = styled(Img)`
 	margin-top: -5px; // To make ChromeContainer Border more fitting
 	width: 100%;
-	height: 100%;
 
 	z-index: 1;
 `;
