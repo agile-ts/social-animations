@@ -7,7 +7,7 @@ const code = `
 const App = new Agile();
 
 // 2️⃣ Create Collection 
-// with the initial Item {id: 1, name: "Clean Bathroom"}
+// with the initial Item '{id: 1, name: "Clean Bathroom"}'
 const TODOS = App.createCollection({
   initialData: [{id: 1, name: "Clean Bathroom"}]
 });
@@ -47,8 +47,8 @@ const Core: React.FC = () => {
 					title="core.ts"
 					fontSize={40}
 					actions={[
-						{from: 5 * fps, line: [3, 4, 5, 6, 7], type: 'in'},
-						{from: 5 * fps + 10, line: [3, 4, 5, 6, 7], type: 'highlight'},
+						{from: 4 * fps, line: [3, 4, 5, 6, 7], type: 'in'},
+						{from: 4 * fps + 10, line: [3, 4, 5, 6, 7], type: 'highlight'},
 						{from: 10 * fps, line: [3, 4, 5, 6, 7], type: 'unhighlight'},
 					]}
 				/>

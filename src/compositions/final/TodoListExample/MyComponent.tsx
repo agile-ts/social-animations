@@ -92,7 +92,7 @@ const MyComponent: React.FC = () => {
 						{from: 1 * fps + 25, line: [1, 2], type: 'highlight'},
 
 						// Move
-						{from: 6 * fps, z: 50, x: 0, y: -100},
+						{from: 6 * fps, z: 50, x: 0, y: -200},
 
 						// Step 3.1
 						{
@@ -109,15 +109,12 @@ const MyComponent: React.FC = () => {
 						{from: 16 * fps, line: 28, type: 'out'},
 
 						// Move
-						{from: 16 * fps + 10, z: 50, x: 0, y: -20},
+						{from: 16 * fps + 10, z: 50, x: 0, y: -100},
 
 						// Step 4
 						{
 							from: 16 * fps + 10,
-							line: [
-								10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25,
-								26,
-							],
+							line: [18, 19, 20, 21, 22, 23, 24, 25, 26],
 							type: 'in',
 						},
 						{

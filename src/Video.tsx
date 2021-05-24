@@ -23,7 +23,7 @@ export const RemotionVideo: React.FC = () => {
 				width={1920}
 				height={1080}
 				fps={todoListExampleFps}
-				durationInFrames={60 * todoListExampleFps}
+				durationInFrames={65 * todoListExampleFps}
 			/>
 		</>
 	);
