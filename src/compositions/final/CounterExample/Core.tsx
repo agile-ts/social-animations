@@ -3,11 +3,8 @@ import styled from 'styled-components';
 import CodeFrame from '../../../components/CodeFrame';
 
 const code = `
-// 1️⃣ Create Instance of AgileTs
-export const App = new Agile();
-
-// 2️⃣ Create State with initial value '0'
-export const COUNTER = App.createState(0);
+// 1️⃣ Create State with the initial value '0'
+export const COUNTER = createState(0);
 `;
 
 const Core: React.FC = () => {
@@ -38,16 +35,7 @@ const Core: React.FC = () => {
 	return (
 		<Container>
 			<CodeContainer style={{transform: `scale(${scale * (1 - scaleOut)})`}}>
-				<CodeFrame
-					code={code}
-					width={1500}
-					title="core.ts"
-					actions={[
-						{from: 5 * fps, line: [3, 4], type: 'in'},
-						{from: 5 * fps + 10, line: [3, 4], type: 'highlight'},
-						{from: 10 * fps, line: [3, 4], type: 'unhighlight'},
-					]}
-				/>
+				<CodeFrame code={code} width={1500} title="core.ts" actions={[]} />
 			</CodeContainer>
 		</Container>
 	);

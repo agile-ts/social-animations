@@ -21,7 +21,7 @@ const CounterExample: React.FC = () => {
 					<Transition pointInTime={'out'} type={'slideUp'}>
 						<HowTo
 							text={
-								"How to create a <br /> <div style='color: var(--ifm-color-purple-dark); display: inline-block'>Counter</div> in AgileTs?"
+								"How to create a <br /> <div style='color: var(--ifm-color-purple-dark); display: inline-block'>Counter</div> using AgileTs?"
 							}
 						/>
 					</Transition>
@@ -30,7 +30,7 @@ const CounterExample: React.FC = () => {
 					<Transition pointInTime={'in'} type={'slideUp'}>
 						<Showcase
 							video={video}
-							text={'Preview of application we will build.'}
+							text={'Preview of the Counter App we are going to create.'}
 						/>
 					</Transition>
 				</Sequence>
@@ -39,14 +39,14 @@ const CounterExample: React.FC = () => {
 						<Black />
 					</Transition>
 				</Sequence>
-				<Sequence from={8 * fps} durationInFrames={10 * fps}>
+				<Sequence from={8 * fps} durationInFrames={6 * fps}>
 					<Transition pointInTime="in" type={'slideRight'}>
 						<Transition pointInTime="out" type={'slideRight'}>
 							<Core />
 						</Transition>
 					</Transition>
 				</Sequence>
-				<Sequence from={18 * fps - 10} durationInFrames={20 * fps}>
+				<Sequence from={14 * fps - 10} durationInFrames={24 * fps}>
 					<Transition pointInTime="in" type={'slideRight'}>
 						<MyComponent />
 					</Transition>

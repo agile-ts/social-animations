@@ -4,14 +4,14 @@ import CodeFrame from '../../../components/CodeFrame';
 
 const code = `
 const MyComponent = () => {
-  // 3️⃣ Bind State to 'MyComponent' for reactivity
+  // 3️⃣ Bind Counter State to 'MyComponent' for reactivity
   const counter = useAgile(COUNTER);
 
   return (
     <div>
       {/* Use returned 'counter' value */}
       <p>{counter}</p>
-      {/* 4️⃣ Update State value on Button press */}
+      {/* 4️⃣ Update State value on button press */}
       <button
         onClick={() => {
           COUNTER.set((c) => c + 1);
@@ -70,7 +70,7 @@ const MyComponent: React.FC = () => {
 							line: [8, 9, 10, 11, 12, 13, 14, 15],
 							type: 'highlight',
 						},
-						{from: 12 * fps, line: [8, 11], type: 'highlight'},
+						{from: 13 * fps, line: [8, 11], type: 'highlight'},
 						{from: 17 * fps, line: [8, 11], type: 'unhighlight'},
 
 						{from: 17 * fps, z: -100},

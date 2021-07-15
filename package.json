@@ -4,7 +4,8 @@
 	"description": "My Remotion video",
 	"scripts": {
 		"start": "remotion preview src/index.tsx",
-		"build": "remotion render src/index.tsx CounterExample .output/CounterExample.mp4",
+		"build:todolist": "remotion render src/index.tsx TodoListExample .output/TodoListExample.mp4",
+		"build:counter": "remotion render src/index.tsx CounterExample .output/CounterExample2.mp4",
 		"upgrade": "remotion upgrade",
 		"server": "ts-node server.tsx",
 		"test": "eslint src --ext ts,tsx,js,jsx && tsc",
